@@ -40,11 +40,11 @@ class _CollectionPageState extends State<CollectionPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        centerTitle: true,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back, color: Colors.black),
         ),
-        centerTitle: true,
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -56,31 +56,57 @@ class _CollectionPageState extends State<CollectionPage> {
 
       body: Column(
         children: [
-          // ===== COUNT + FILTER & SORT =====
+          const SizedBox(height: 8),
+
+          // ===== SORT (left) + FILTER (right) WITH BORDER =====
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "${products.length} items",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black87,
+                // SORT
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text(
+                    "SORT",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ),
-                Row(
-                  children: const [
-                    Icon(Icons.filter_list, size: 22),
-                    SizedBox(width: 20),
-                    Icon(Icons.swap_vert, size: 22),
-                  ],
+
+                // FILTER
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Text(
+                    "FILTER",
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
+
+          // ===== COUNT OF ITEMS =====
+          Text(
+            "${products.length} items",
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.black87,
+            ),
+          ),
+
+          const SizedBox(height: 20),
 
           // ===== GRID PRODUCTS =====
           Expanded(
@@ -102,13 +128,13 @@ class _CollectionPageState extends State<CollectionPage> {
         ],
       ),
 
-      // ====== BOTTOM NAV BAR (نفس تبع الهوم) ======
+      // ===== BOTTOM NAV BAR =====
       bottomNavigationBar: BottomNavBar(
         selectedIndex: selectedIndex,
         onTap: (i) {
           setState(() => selectedIndex = i);
 
-          if (i == 0) Navigator.pop(context); // يرجع على الهوم
+          if (i == 0) Navigator.pop(context);
         },
       ),
     );
@@ -127,6 +153,7 @@ class _CollectionPageState extends State<CollectionPage> {
             color: Colors.grey[100],
             child: Image.asset(item["image"], fit: BoxFit.cover),
           ),
+
           const SizedBox(height: 10),
 
           Text(
