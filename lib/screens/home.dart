@@ -1,5 +1,7 @@
 // screens/home.dart
 import 'package:flutter/material.dart';
+import 'package:bridge_app/screens/collection.dart'; // تم إضافة هذا الربط فقط
+import 'package:bridge_app/widgets/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +12,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+
+  void openCollection(String title) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CollectionPage(title: title),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,9 +161,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.white,
                       side: const BorderSide(color: Colors.black),
                     ),
-                    onPressed: () {
-                      // هنا تضيف وظيفة الضغط
-                    },
+                    onPressed: () {},
                     child: const Text(
                       "SHOP NOW",
                       style: TextStyle(color: Colors.black),
@@ -220,10 +229,38 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 25),
 
-            // 4 صور New In مع شريط أسود في المنتصف
-            imageRowBlackText("Occasions", "New in Trainers"),
+            // ----------- 4 صور New In مع إضافة الربط -------------
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () => openCollection("Occasions"),
+                  child: imageBoxBlackText("assets/images/fashion1.jpeg", "Occasions"),
+                ),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: () => openCollection("New in Trainers"),
+                  child: imageBoxBlackText("assets/images/fashion2.jpeg", "New in Trainers"),
+                ),
+              ],
+            ),
+
             const SizedBox(height: 15),
-            imageRowBlackText("The Latest\nfashion", "The Sourced\nCollection"),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () => openCollection("The Latest fashion"),
+                  child: imageBoxBlackText("assets/images/fashion1.jpeg", "The Latest\nfashion"),
+                ),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: () => openCollection("The Sourced Collection"),
+                  child: imageBoxBlackText("assets/images/fashion2.jpeg", "The Sourced\nCollection"),
+                ),
+              ],
+            ),
 
             const SizedBox(height: 40),
 
@@ -237,7 +274,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 30),
 
-            // ---------------- REPEAT ProductCard صف واحد ----------------
+            // ---------------- REPEAT ProductCard ----------------
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -268,25 +305,17 @@ class _HomePageState extends State<HomePage> {
       ),
 
       // Bottom Navigation
-      bottomNavigationBar: Container(
-        height: 70,
-        padding: const EdgeInsets.symmetric(horizontal: 25),
-        decoration: const BoxDecoration(color: Colors.white),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            bottomItem(0, "logo"),
-            bottomItem(1, "search"),
-            bottomItem(2, "heart"),
-            bottomItem(3, "bag"),
-            bottomItem(4, "user"),
-          ],
-        ),
+     bottomNavigationBar: BottomNavBar(
+        selectedIndex: selectedIndex,
+        onTap: (i) {
+          setState(() => selectedIndex = i);
+        },
       ),
+
     );
   }
 
-//Nav Bar
+  //Nav Bar
   Widget bottomItem(int index, String iconName) {
     bool active = index == selectedIndex;
 
@@ -361,17 +390,6 @@ class ProductCard extends StatelessWidget {
 }
 
 // ----------------- 2 صور مع شريط أسود بالنص -----------------
-Widget imageRowBlackText(String text1, String text2) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      imageBoxBlackText("assets/images/fashion1.jpeg", text1),
-      const SizedBox(width: 12),
-      imageBoxBlackText("assets/images/fashion2.jpeg", text2),
-    ],
-  );
-}
-
 Widget imageBoxBlackText(String img, String lbl) {
   return Stack(
     alignment: Alignment.center,
