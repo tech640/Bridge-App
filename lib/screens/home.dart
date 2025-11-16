@@ -1,8 +1,8 @@
 // screens/home.dart
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/widgets/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,59 +34,41 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height: 40),
 
-            // ---------------- SEARCH BAR WITH NAVIGATION ----------------
+            // ===== SEARCH BAR =====
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SearchPage(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: Colors.black, width: 1),
-                          color: Colors.white,
-                        ),
-                        height: 40,
-                        child: const Row(
-                          children: [
-                            Icon(Icons.search, size: 20),
-                            SizedBox(width: 10),
-                            Text(
-                              "Search",
-                              style: TextStyle(color: Colors.black54),
-                            ),
-                          ],
-                        ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SearchPage()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: Colors.black, width: 1),
+                    color: Colors.white,
+                  ),
+                  height: 40,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.search, size: 20),
+                      SizedBox(width: 10),
+                      Text(
+                        "Search",
+                        style: TextStyle(color: Colors.black54),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: const Icon(Icons.camera_alt_outlined),
-                  ),
-                ],
+                ),
               ),
             ),
 
             const SizedBox(height: 25),
 
-            // ---------------- Tabs ----------------
+            // ===== TABS (HOME / FOR YOU) =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -101,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(width: 25),
-                const Text(
+                Text(
                   "FOR YOU",
                   style: TextStyle(
                     fontSize: 18,
@@ -113,7 +95,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 20),
 
-            // ---------------- Banner ----------------
+            // ===== BANNER =====
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.all(20),
@@ -143,7 +125,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 20),
 
-            // ---------------- Fashion Image ----------------
+            // ===== Fashion Image =====
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ClipRRect(
@@ -157,7 +139,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 30),
 
-            // ---------------- PARTY PREVIEW HEADER ----------------
+            // ===== PARTY PREVIEW HEADER =====
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -183,7 +165,7 @@ class _HomePageState extends State<HomePage> {
             ),
 
             const SizedBox(height: 20),
-
+            // ===== صف صورتين ProductCard =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -195,7 +177,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 30),
 
-            // ---------------- Banner Black ----------------
+            // ===== Banner Black =====
             Container(
               padding: const EdgeInsets.all(25),
               width: double.infinity,
@@ -230,6 +212,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 40),
 
+            // ===== NEW IN TITLE =====
             const Center(
               child: Text(
                 "New In",
@@ -239,6 +222,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 25),
 
+            // ===== 4 صور New In مع إضافة الربط =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -273,6 +257,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 40),
 
+            // ===== 30% OFF TEXT =====
             const Center(
               child: Text(
                 "The up to 30% off edit",
@@ -282,6 +267,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 30),
 
+            // ===== REPEAT ProductCard =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -293,6 +279,7 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 35),
 
+            // ===== SHOP NOW BIG BUTTON =====
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 18),
@@ -310,17 +297,28 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      // ---------------- Bottom Navigation ----------------
+      // ===== BOTTOM NAVIGATION BAR =====
       bottomNavigationBar: BottomNavBar(
         selectedIndex: selectedIndex,
         onTap: (i) {
           setState(() => selectedIndex = i);
+
+          if (i == 0) {
+            // اضغط Home → ارجع للهوم
+            Navigator.pop(context);
+          } else if (i == 1) {
+            // اضغط Search → اذهب لصفحة Search
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SearchPage()),
+            );
+          }
         },
       ),
     );
   }
 
-  // ---------------- Bottom Item ----------------
+  //Nav Bar (استخدام للـ bottom_nav فقط)
   Widget bottomItem(int index, String iconName) {
     bool active = index == selectedIndex;
 
@@ -343,7 +341,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           if (active) const SizedBox(height: 4),
-
           Image.asset(
             active
                 ? "assets/icons/${iconName}Pink.png"
@@ -356,7 +353,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ---------------- PRODUCT CARD ----------------
+// ================= PRODUCT CARD =================
 class ProductCard extends StatelessWidget {
   final String image;
   const ProductCard({super.key, required this.image});
@@ -394,7 +391,7 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-// ---------------- Image Box with Black Bar ----------------
+// ================= 2 صور مع شريط أسود بالنص =================
 Widget imageBoxBlackText(String img, String lbl) {
   return Stack(
     alignment: Alignment.center,
