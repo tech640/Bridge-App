@@ -1,6 +1,6 @@
 // screens/filter/brand_page.dart
 import 'package:flutter/material.dart';
-import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/search2.dart';
 
 class BrandPage extends StatefulWidget {
   const BrandPage({super.key});
@@ -25,13 +25,13 @@ class _BrandPageState extends State<BrandPage> {
     {"title": "Asics", "count": 10},
   ];
 
-  void _goToSearchPage() {
+ 
+ void _goToSearchScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SearchPage()),
+      MaterialPageRoute(builder: (context) => Search2Page()),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +109,7 @@ class _BrandPageState extends State<BrandPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: GestureDetector(
-              onTap: _goToSearchPage,
+              onTap: _goToSearchScreen,
               child: Container(
                 height: 40,
                 padding: const EdgeInsets.symmetric(horizontal: 12),

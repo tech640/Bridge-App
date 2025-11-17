@@ -1,6 +1,6 @@
 // screens/filter/product_type_page.dart
 import 'package:flutter/material.dart';
-import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/search2.dart';
 
 class ProductTypePage extends StatefulWidget {
   const ProductTypePage({super.key});
@@ -27,10 +27,10 @@ class _ProductTypePageState extends State<ProductTypePage> {
   ];
 
 
-  void _goToSearchPage() {
+ void _goToSearchScreen() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SearchPage()),
+      MaterialPageRoute(builder: (context) => Search2Page()),
     );
   }
 
@@ -97,7 +97,7 @@ class _ProductTypePageState extends State<ProductTypePage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: GestureDetector(
-              onTap: _goToSearchPage,
+              onTap: _goToSearchScreen,
               child: Container(
                 height: 40, // حجم أصغر
                 padding: const EdgeInsets.symmetric(horizontal: 12),
