@@ -1,6 +1,8 @@
 // screens/collection.dart
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/filter/filter_page.dart';
+
 
 class CollectionPage extends StatefulWidget {
   final String title;
@@ -79,18 +81,26 @@ class _CollectionPageState extends State<CollectionPage> {
                 ),
 
                 // FILTER
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: const Text(
-                    "FILTER",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  ),
+             GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const FilterPage()),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(6),
                 ),
+                child: const Text(
+                  "FILTER",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+
               ],
             ),
           ),
