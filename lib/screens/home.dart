@@ -305,15 +305,14 @@ class _HomePageState extends State<HomePage> {
           setState(() => selectedIndex = i);
 
           if (i == 0) {
-            // اضغط Home → ارجع للهوم
-            Navigator.pop(context);
-          } else if (i == 1) {
-            // اضغط Search → اذهب لصفحة Search
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SearchPage()),
-            );
-          }
+  // Stay on the same page, لا تفعل شيء
+} else if (i == 1) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => const SearchPage()),
+  );
+}
+
         },
       ),
     );

@@ -1,5 +1,7 @@
 // widgets/bottom_nav.dart
 import 'package:flutter/material.dart';
+import 'package:bridge_app/screens/sign_in.dart';
+
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -35,6 +37,7 @@ class BottomNavBar extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => onTap(index),
+      
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -48,6 +51,7 @@ class BottomNavBar extends StatelessWidget {
               ),
             ),
           if (active) const SizedBox(height: 4),
+          
 
           Image.asset(
             active

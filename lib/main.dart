@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'screens/home.dart'; // تأكد إنو اسم الملف صح
 
 void main() {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   runApp(MyApp());
 }
 
