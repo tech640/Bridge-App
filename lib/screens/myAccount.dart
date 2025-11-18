@@ -5,6 +5,8 @@ import 'package:bridge_app/screens/setting.dart';
 import 'package:bridge_app/screens/search.dart';
 import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/sign_in.dart';
+import 'package:bridge_app/screens/sign_up.dart';
+
 
 class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
@@ -100,7 +102,7 @@ class MyAccountPage extends StatelessWidget {
             height: 45,
             child: ElevatedButton(
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const SignInPage()),
               );
@@ -113,7 +115,12 @@ class MyAccountPage extends StatelessWidget {
           const SizedBox(height: 10),
 
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SignUpPage()),
+              );
+            },
             child: const Text(
               "JOIN",
               style: TextStyle(color: Colors.black),
