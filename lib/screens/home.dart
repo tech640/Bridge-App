@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
 import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/myAccount.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
@@ -311,6 +312,13 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const SearchPage()),
+            );
+          }
+          else if (i == 4) {
+            // اضغط user → اذهب لصفحة myAccount
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const MyAccountPage()),
             );
           }
         },
