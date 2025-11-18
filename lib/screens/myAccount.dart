@@ -4,10 +4,12 @@ import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/setting.dart';
 import 'package:bridge_app/screens/search.dart';
 import 'package:bridge_app/screens/home.dart';
+import 'package:bridge_app/screens/sign_in.dart';
+
 class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
 
-  const MyAccountPage({super.key, this.isLoggedIn = true});
+  const MyAccountPage({super.key, this.isLoggedIn = false});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,12 @@ class MyAccountPage extends StatelessWidget {
             width: 220,
             height: 45,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                 Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SignInPage()),
+              );
+              },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("SIGN IN"),
             ),
