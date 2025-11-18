@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
 import 'package:bridge_app/screens/search.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/forYou.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -83,13 +84,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(width: 25),
-                Text(
+                 GestureDetector(
+                   onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ForYouPage()),
+                    );
+                  },
+                 child: const Text(
                   "FOR YOU",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.grey,
                   ),
                 ),
+               ),
               ],
             ),
 

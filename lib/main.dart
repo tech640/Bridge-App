@@ -1,6 +1,6 @@
 // main.dart
 import 'package:flutter/material.dart';
-import 'screens/home.dart'; // تأكد إنو اسم الملف صح
+import 'screens/home.dart'; 
 
 void main() {
   runApp(MyApp());
