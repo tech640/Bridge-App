@@ -1,6 +1,8 @@
 // screens/search.dart
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/myAccount.dart';
+
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -132,12 +134,29 @@ class _SearchPageState extends State<SearchPage> {
       ),
 
       /// ===== BOTTOM NAV BAR (بدل البار القديم) =====
+        // ===== BOTTOM NAVIGATION BAR =====
       bottomNavigationBar: BottomNavBar(
         selectedIndex: selectedIndex,
         onTap: (i) {
           setState(() => selectedIndex = i);
 
-          if (i == 0) Navigator.pop(context); // الضغط على Home → يرجع للهوم
+          if (i == 0) {
+            // اضغط Home → ارجع للهوم
+            Navigator.pop(context);
+          } else if (i == 1) {
+            // اضغط Search → اذهب لصفحة Search
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SearchPage()),
+            );
+          }
+          else if (i == 4) {
+            // اضغط user → اذهب لصفحة myAccount
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const MyAccountPage()),
+            );
+          }
         },
       ),
     );

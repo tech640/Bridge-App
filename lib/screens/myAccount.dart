@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/setting.dart';
-
-
-
+import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/home.dart';
 class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
 
-  const MyAccountPage({super.key, this.isLoggedIn = false});
+  const MyAccountPage({super.key, this.isLoggedIn = true});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +41,28 @@ class MyAccountPage extends StatelessWidget {
       ),
 
       body: isLoggedIn ? _loggedInView(context) : _loggedOutView(context),
+
+      /// ===== BOTTOM NAVIGATION BAR =====
+      bottomNavigationBar: SizedBox(
+        height: 60, // ضيّقنا البار شوي
+        child: BottomNavBar(
+          selectedIndex: 4, // صفحة الماي اكاونت
+          onTap: (i) {
+            if (i == 0) {
+             Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const HomePage()),
+              ); 
+              // ارجع للهوم
+            } else if (i == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SearchPage()),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 
@@ -71,34 +93,20 @@ class MyAccountPage extends StatelessWidget {
 
           const SizedBox(height: 30),
 
-          // SIGN IN
           SizedBox(
             width: 220,
             height: 45,
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const SignInPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-              ),
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("SIGN IN"),
             ),
           ),
 
           const SizedBox(height: 10),
 
-          // JOIN
           TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SignUpPage()),
-              );
-            },
+            onPressed: () {},
             child: const Text(
               "JOIN",
               style: TextStyle(color: Colors.black),
@@ -116,8 +124,6 @@ class MyAccountPage extends StatelessWidget {
     return ListView(
       children: [
         const SizedBox(height: 20),
-
-        // Example user circle
         Center(
           child: CircleAvatar(
             radius: 40,
@@ -128,9 +134,7 @@ class MyAccountPage extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(height: 20),
-
         _item("My orders", Icons.shopping_bag, () {}),
         _item("Need help?", Icons.help_outline, () {}),
         _item("Gift cards & vouchers", Icons.card_giftcard, () {}),
@@ -140,7 +144,6 @@ class MyAccountPage extends StatelessWidget {
         _item("Contact preferences", Icons.message_outlined, () {}),
         _item("Social accounts", Icons.people_outline, () {}),
         _item("I need a new returns note", Icons.receipt_long_outlined, () {}),
-
         ListTile(
           leading: const Icon(Icons.logout, color: Colors.black),
           title: const Text("Sign out", style: TextStyle(color: Colors.black)),
@@ -163,39 +166,3 @@ class MyAccountPage extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------
-// TEMP PAGES FOR BUTTONS
-// ---------------------------
-class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Sign In")),
-      body: const Center(child: Text("Sign In Page")),
-    );
-  }
-}
-
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Join")),
-      body: const Center(child: Text("Sign Up Page")),
-    );
-  }
-}
-
-// class SettingPage extends StatelessWidget {
-//   const SettingPage({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text("Settings")),
-//       body: const Center(child: Text("Settings Page")),
-//     );
-//   }
-// }
