@@ -1,17 +1,19 @@
 // main.dart
 import 'package:flutter/material.dart';
-import 'screens/home.dart'; // تأكد إنو اسم الملف صح
+import 'screens/main_layout.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(), // استدعاء الصفحة الرئيسية
+      home: const MainLayout(), // <<<<<< هون صار يدخل عالمين لياوت
     );
   }
 }

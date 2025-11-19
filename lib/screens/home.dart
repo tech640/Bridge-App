@@ -2,20 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
 import 'package:bridge_app/screens/search.dart';
-import 'package:bridge_app/screens/myAccount.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int selectedIndex = 0;
-
-  void openCollection(String title) {
+  void openCollection(BuildContext context, String title) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -166,6 +157,7 @@ class _HomePageState extends State<HomePage> {
             ),
 
             const SizedBox(height: 20),
+
             // ===== صف صورتين ProductCard =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -223,17 +215,17 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 25),
 
-            // ===== 4 صور New In مع إضافة الربط =====
+            // ===== 4 صور New In =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () => openCollection("Occasions"),
+                  onTap: () => openCollection(context, "Occasions"),
                   child: imageBoxBlackText("assets/images/fashion1.jpeg", "Occasions"),
                 ),
                 const SizedBox(width: 12),
                 GestureDetector(
-                  onTap: () => openCollection("New in Trainers"),
+                  onTap: () => openCollection(context, "New in Trainers"),
                   child: imageBoxBlackText("assets/images/fashion2.jpeg", "New in Trainers"),
                 ),
               ],
@@ -245,12 +237,12 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () => openCollection("The Latest fashion"),
+                  onTap: () => openCollection(context, "The Latest fashion"),
                   child: imageBoxBlackText("assets/images/fashion1.jpeg", "The Latest\nfashion"),
                 ),
                 const SizedBox(width: 12),
                 GestureDetector(
-                  onTap: () => openCollection("The Sourced Collection"),
+                  onTap: () => openCollection(context, "The Sourced Collection"),
                   child: imageBoxBlackText("assets/images/fashion2.jpeg", "The Sourced\nCollection"),
                 ),
               ],
@@ -297,66 +289,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-
-      // ===== BOTTOM NAVIGATION BAR =====
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: selectedIndex,
-        onTap: (i) {
-          setState(() => selectedIndex = i);
-
-          if (i == 0) {
-            // اضغط Home → ارجع للهوم
-            Navigator.pop(context);
-          } else if (i == 1) {
-            // اضغط Search → اذهب لصفحة Search
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SearchPage()),
-            );
-          }
-          else if (i == 4) {
-            // اضغط user → اذهب لصفحة myAccount
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const MyAccountPage()),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  //Nav Bar (استخدام للـ bottom_nav فقط)
-  Widget bottomItem(int index, String iconName) {
-    bool active = index == selectedIndex;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (active)
-            Container(
-              width: 20,
-              height: 3,
-              decoration: BoxDecoration(
-                color: Colors.pinkAccent,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          if (active) const SizedBox(height: 4),
-          Image.asset(
-            active
-                ? "assets/icons/${iconName}Pink.png"
-                : "assets/icons/${iconName}.png",
-            height: 30,
-          ),
-        ],
-      ),
     );
   }
 }
@@ -371,7 +303,7 @@ class ProductCard extends StatelessWidget {
     return Container(
       width: 165,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black.withOpacity(0.3)),
+        border: Border.all(color: Colors.black26),
       ),
       child: Column(
         children: [
@@ -381,15 +313,10 @@ class ProductCard extends StatelessWidget {
             child: Image.asset(image, fit: BoxFit.cover),
           ),
           const SizedBox(height: 10),
-          const Text(
-            "Long Sleeve Dress",
-            style: TextStyle(fontSize: 14),
-          ),
+          const Text("Long Sleeve Dress", style: TextStyle(fontSize: 14)),
           const SizedBox(height: 5),
-          const Text(
-            "\$ 45.00",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          const Text("\$ 45.00",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           const Icon(Icons.favorite_border),
           const SizedBox(height: 10),

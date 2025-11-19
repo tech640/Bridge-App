@@ -4,6 +4,8 @@ import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/setting.dart';
 import 'package:bridge_app/screens/search.dart';
 import 'package:bridge_app/screens/home.dart';
+import 'package:bridge_app/screens/bag.dart';
+
 class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
 
@@ -41,34 +43,9 @@ class MyAccountPage extends StatelessWidget {
       ),
 
       body: isLoggedIn ? _loggedInView(context) : _loggedOutView(context),
-
-      /// ===== BOTTOM NAVIGATION BAR =====
-      bottomNavigationBar: SizedBox(
-        height: 60, // ضيّقنا البار شوي
-        child: BottomNavBar(
-          selectedIndex: 4, // صفحة الماي اكاونت
-          onTap: (i) {
-            if (i == 0) {
-             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const HomePage()),
-              ); 
-              // ارجع للهوم
-            } else if (i == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SearchPage()),
-              );
-            }
-          },
-        ),
-      ),
     );
   }
 
-  // --------------------------
-  // 1) VIEW IF LOGGED OUT
-  // --------------------------
   Widget _loggedOutView(BuildContext context) {
     return Center(
       child: Column(
@@ -80,19 +57,12 @@ class MyAccountPage extends StatelessWidget {
             child: Text("😉", style: TextStyle(fontSize: 40)),
           ),
           const SizedBox(height: 20),
-
-          const Text(
-            "COME ON IN",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const Text(
-            "View orders and update\nYour details",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey),
-          ),
-
+          const Text("COME ON IN",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Text("View orders and update\nYour details",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 30),
-
           SizedBox(
             width: 220,
             height: 45,
@@ -102,24 +72,16 @@ class MyAccountPage extends StatelessWidget {
               child: const Text("SIGN IN"),
             ),
           ),
-
           const SizedBox(height: 10),
-
           TextButton(
             onPressed: () {},
-            child: const Text(
-              "JOIN",
-              style: TextStyle(color: Colors.black),
-            ),
+            child: const Text("JOIN", style: TextStyle(color: Colors.black)),
           )
         ],
       ),
     );
   }
 
-  // --------------------------
-  // 2) VIEW IF LOGGED IN
-  // --------------------------
   Widget _loggedInView(BuildContext context) {
     return ListView(
       children: [
@@ -128,10 +90,8 @@ class MyAccountPage extends StatelessWidget {
           child: CircleAvatar(
             radius: 40,
             backgroundColor: Colors.black,
-            child: const Text(
-              "HM",
-              style: TextStyle(color: Colors.white, fontSize: 22),
-            ),
+            child: const Text("HM",
+                style: TextStyle(color: Colors.white, fontSize: 22)),
           ),
         ),
         const SizedBox(height: 20),

@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/myAccount.dart';
-
+import 'package:bridge_app/screens/home.dart';
+import 'package:bridge_app/screens/bag.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -34,10 +35,10 @@ class _SearchPageState extends State<SearchPage> {
                     border: Border.all(color: Colors.black12),
                   ),
                   child: Row(
-                    children: [
-                      const Icon(Icons.search),
-                      const SizedBox(width: 6),
-                      const Expanded(
+                    children: const [
+                      Icon(Icons.search),
+                      SizedBox(width: 6),
+                      Expanded(
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: "Search",
@@ -45,7 +46,7 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                       ),
-                      const Icon(Icons.camera_alt_outlined),
+                      Icon(Icons.camera_alt_outlined),
                     ],
                   ),
                 ),
@@ -132,38 +133,10 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
-
-      /// ===== BOTTOM NAV BAR (بدل البار القديم) =====
-        // ===== BOTTOM NAVIGATION BAR =====
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: selectedIndex,
-        onTap: (i) {
-          setState(() => selectedIndex = i);
-
-          if (i == 0) {
-            // اضغط Home → ارجع للهوم
-            Navigator.pop(context);
-          } else if (i == 1) {
-            // اضغط Search → اذهب لصفحة Search
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SearchPage()),
-            );
-          }
-          else if (i == 4) {
-            // اضغط user → اذهب لصفحة myAccount
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const MyAccountPage()),
-            );
-          }
-        },
-      ),
     );
   }
 
-  /// --- WIDGETS ---
-
+  /// --- WIDGETS كما هي ---
   Widget _bigBanner({required String title, required String subtitle}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

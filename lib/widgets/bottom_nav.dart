@@ -13,47 +13,70 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconSize = 28.0;
+    final activeColor = Colors.pink; // اللون عند الاختيار
+    final inactiveColor = Colors.grey; // اللون الافتراضي
+
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.pink.shade50, // خلفية وردية باهتة
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 10,
+          ),
+        ],
+      ),
       height: 70,
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      decoration: const BoxDecoration(color: Colors.white),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          navItem(0, "logo"),
-          navItem(1, "search"),
-          navItem(2, "heart"),
-          navItem(3, "bag"),
-          navItem(4, "user"),
+          _navItem(Icons.home_outlined, 0, selectedIndex, onTap, iconSize, activeColor, inactiveColor),
+          _navItem(Icons.search, 1, selectedIndex, onTap, iconSize, activeColor, inactiveColor),
+          _navItem(Icons.shopping_bag_outlined, 2, selectedIndex, onTap, iconSize, activeColor, inactiveColor),
+          _navItem(Icons.favorite_outline, 3, selectedIndex, onTap, iconSize, activeColor, inactiveColor),
+          _navItem(Icons.person_outline, 4, selectedIndex, onTap, iconSize, activeColor, inactiveColor),
         ],
       ),
     );
   }
 
-  Widget navItem(int index, String iconName) {
-    bool active = index == selectedIndex;
+  Widget _navItem(
+    IconData icon,
+    int index,
+    int selectedIndex,
+    Function(int) onTap,
+    double size,
+    Color activeColor,
+    Color inactiveColor,
+  ) {
+    bool isActive = index == selectedIndex;
 
     return GestureDetector(
       onTap: () => onTap(index),
+      behavior: HitTestBehavior.opaque,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (active)
+          // الخط الزهري فوق الأيقونة عند الاختيار
+          if (isActive)
             Container(
-              width: 20,
               height: 3,
+              width: 30,
+              margin: const EdgeInsets.only(bottom: 6),
               decoration: BoxDecoration(
-                color: Colors.pinkAccent,
+                color: activeColor,
                 borderRadius: BorderRadius.circular(2),
               ),
-            ),
-          if (active) const SizedBox(height: 4),
+            )
+          else
+            const SizedBox(height: 3, width: 30, child: SizedBox()),
 
-          Image.asset(
-            active
-                ? "assets/icons/${iconName}Pink.png"
-                : "assets/icons/${iconName}.png",
-            height: 30,
+          Icon(
+            icon,
+            size: size,
+            color: isActive ? activeColor : inactiveColor,
           ),
         ],
       ),
