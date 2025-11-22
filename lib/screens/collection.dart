@@ -1,8 +1,9 @@
 // screens/collection.dart
+// Updated collection.dart with SORT modal only (no extra data)
+
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/filter/filter_page.dart';
-
 
 class CollectionPage extends StatefulWidget {
   final String title;
@@ -15,6 +16,15 @@ class CollectionPage extends StatefulWidget {
 
 class _CollectionPageState extends State<CollectionPage> {
   int selectedIndex = 0;
+
+  String selectedSort = "Recommended";
+
+  final List<String> sortOptions = [
+    "Recommended",
+    "What's New",
+    "Price: High to Low",
+    "Price: Low to High",
+  ];
 
   final List<Map<String, dynamic>> products = [
     {
@@ -32,7 +42,90 @@ class _CollectionPageState extends State<CollectionPage> {
       "name": "Party Dress",
       "price": 55.00,
     },
+    {
+      "image": "assets/images/fashion3.jpeg",
+      "name": "Party Dress",
+      "price": 66.00,
+    },
   ];
+
+  void sortProducts() {
+    setState(() {
+      if (selectedSort == "Price: High to Low") {
+        products.sort((a, b) => b["price"].compareTo(a["price"]));
+      } else if (selectedSort == "Price: Low to High") {
+        products.sort((a, b) => a["price"].compareTo(b["price"]));
+      } else if (selectedSort == "What's New") {
+        products.shuffle();
+      }
+    });
+  }
+
+  void openSortMenu() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(18),
+          topRight: Radius.circular(18),
+        ),
+      ),
+      builder: (_) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 10),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            ...sortOptions.map((option) {
+              return InkWell(
+                onTap: () {
+                  selectedSort = option;
+                  Navigator.pop(context);
+                  sortProducts();
+                },
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 14),
+                      child: Row(
+                        children: [
+                          Icon(
+                            option == selectedSort
+                                ? Icons.circle
+                                : Icons.circle_outlined,
+                            size: 14,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            option,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(height: 1, color: Colors.grey[300]),
+                  ],
+                ),
+              );
+            }).toList(),
+
+            const SizedBox(height: 25),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,54 +153,58 @@ class _CollectionPageState extends State<CollectionPage> {
         children: [
           const SizedBox(height: 8),
 
-          // ===== SORT (left) + FILTER (right) WITH BORDER =====
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // SORT
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: const Text(
-                    "SORT",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+
+                // SORT BUTTON
+                GestureDetector(
+                  onTap: openSortMenu,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Text(
+                      "SORT",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
 
-                // FILTER
-             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const FilterPage()),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(6),
+                // FILTER BUTTON
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const FilterPage()),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Text(
+                      "FILTER",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  ),
                 ),
-                child: const Text(
-                  "FILTER",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                ),
-              ),
-            ),
-
               ],
             ),
           ),
 
           const SizedBox(height: 12),
 
-          // ===== COUNT OF ITEMS =====
           Text(
             "${products.length} items",
             style: const TextStyle(
@@ -118,7 +215,6 @@ class _CollectionPageState extends State<CollectionPage> {
 
           const SizedBox(height: 20),
 
-          // ===== GRID PRODUCTS =====
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -138,7 +234,6 @@ class _CollectionPageState extends State<CollectionPage> {
         ],
       ),
 
-      // ===== BOTTOM NAV BAR =====
       bottomNavigationBar: BottomNavBar(
         selectedIndex: selectedIndex,
         onTap: (i) {
@@ -150,7 +245,6 @@ class _CollectionPageState extends State<CollectionPage> {
     );
   }
 
-  // ===== PRODUCT CARD =====
   Widget productCard(Map<String, dynamic> item) {
     return Container(
       decoration: BoxDecoration(
