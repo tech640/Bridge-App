@@ -5,11 +5,15 @@ import 'package:bridge_app/screens/setting.dart';
 import 'package:bridge_app/screens/search.dart';
 import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/bag.dart';
+import 'package:bridge_app/screens/sign_in.dart';
+import 'package:bridge_app/screens/sign_up.dart';
+
 
 class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
 
   const MyAccountPage({super.key, this.isLoggedIn = true});
+  // const MyAccountPage({super.key, this.isLoggedIn = false});
 
   @override
   Widget build(BuildContext context) {
@@ -57,31 +61,56 @@ class MyAccountPage extends StatelessWidget {
             child: Text("😉", style: TextStyle(fontSize: 40)),
           ),
           const SizedBox(height: 20),
-          const Text("COME ON IN",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          const Text("View orders and update\nYour details",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey)),
+
+          const Text(
+            "COME ON IN",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            "View orders and update\nYour details",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.grey),
+          ),
+
           const SizedBox(height: 30),
+
           SizedBox(
             width: 220,
             height: 45,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SignInPage()),
+              );
+              },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("SIGN IN"),
             ),
           ),
+
           const SizedBox(height: 10),
+
           TextButton(
-            onPressed: () {},
-            child: const Text("JOIN", style: TextStyle(color: Colors.black)),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SignUpPage()),
+              );
+            },
+            child: const Text(
+              "JOIN",
+              style: TextStyle(color: Colors.black),
+            ),
           )
         ],
       ),
     );
   }
 
+  // --------------------------
+  // 2) VIEW IF LOGGED IN
+  // --------------------------
   Widget _loggedInView(BuildContext context) {
     return ListView(
       children: [
@@ -90,8 +119,10 @@ class MyAccountPage extends StatelessWidget {
           child: CircleAvatar(
             radius: 40,
             backgroundColor: Colors.black,
-            child: const Text("HM",
-                style: TextStyle(color: Colors.white, fontSize: 22)),
+            child: const Text(
+              "HM",
+              style: TextStyle(color: Colors.white, fontSize: 22),
+            ),
           ),
         ),
         const SizedBox(height: 20),

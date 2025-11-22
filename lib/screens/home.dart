@@ -216,6 +216,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 25),
 
             // ===== 4 صور New In =====
+            // ===== 4 صور New In مع إضافة الربط =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -303,7 +304,7 @@ class ProductCard extends StatelessWidget {
     return Container(
       width: 165,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26),
+        border: Border.all(color: Colors.black.withOpacity(0.3)),
       ),
       child: Column(
         children: [
@@ -313,10 +314,15 @@ class ProductCard extends StatelessWidget {
             child: Image.asset(image, fit: BoxFit.cover),
           ),
           const SizedBox(height: 10),
-          const Text("Long Sleeve Dress", style: TextStyle(fontSize: 14)),
+          const Text(
+            "Long Sleeve Dress",
+            style: TextStyle(fontSize: 14),
+          ),
           const SizedBox(height: 5),
-          const Text("\$ 45.00",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          const Text(
+            "\$ 45.00",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 10),
           const Icon(Icons.favorite_border),
           const SizedBox(height: 10),
