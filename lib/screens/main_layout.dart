@@ -23,8 +23,8 @@ class _MainLayoutState extends State<MainLayout> {
     BagPage(
       loggedIn: true,
       cartItems: [
-        {"name": "Sample Item 1", "price": 45.0},
-        {"name": "Sample Item 2", "price": 30.0}
+        // {"name": "Sample Item 1", "price": 45.0},
+        // {"name": "Sample Item 2", "price": 30.0}
       ],
     ),
     FavoritePage(),

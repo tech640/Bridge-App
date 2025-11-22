@@ -8,11 +8,11 @@ class BagPage extends StatefulWidget {
   const BagPage({
     super.key,
     this.loggedIn = true,
-    // this.cartItems = const [],
-    this.cartItems=const [
-                          {"name": "Sample Item 1", "price": 45.0},
-                          {"name": "Sample Item 2", "price": 30.0}
-                        ],
+    this.cartItems = const [],
+    // this.cartItems=const [
+    //                       {"name": "Sample Item 1", "price": 45.0},
+    //                       {"name": "Sample Item 2", "price": 30.0}
+    //                     ],
   });
 
   @override
