@@ -6,6 +6,7 @@ import 'package:bridge_app/screens/bag.dart';
 import 'package:bridge_app/screens/favorite.dart';  
 import 'package:bridge_app/screens/myAccount.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/forYou.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
