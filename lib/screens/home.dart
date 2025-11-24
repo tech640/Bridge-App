@@ -21,7 +21,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfffaf6f8),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +58,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
 
             // ===== TABS (HOME / FOR YOU) =====
@@ -77,24 +75,23 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 25),
-                 GestureDetector(
-                   onTap: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (_) => const ForYouPage()),
                     );
                   },
-                 child: const Text(
-                  "FOR YOU",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
+                  child: const Text(
+                    "FOR YOU",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
-               ),
               ],
             ),
-
             const SizedBox(height: 20),
 
             // ===== BANNER =====
@@ -124,7 +121,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
 
             // ===== Fashion Image =====
@@ -138,7 +134,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 30),
 
             // ===== PARTY PREVIEW HEADER =====
@@ -165,7 +160,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
 
             // ===== صف صورتين ProductCard =====
@@ -177,7 +171,6 @@ class HomePage extends StatelessWidget {
                 ProductCard(image: "assets/images/fashion2.png"),
               ],
             ),
-
             const SizedBox(height: 30),
 
             // ===== Banner Black =====
@@ -212,7 +205,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 40),
 
             // ===== NEW IN TITLE =====
@@ -222,10 +214,8 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
             ),
-
             const SizedBox(height: 25),
 
-            // ===== 4 صور New In =====
             // ===== 4 صور New In مع إضافة الربط =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -241,9 +231,7 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 15),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -258,7 +246,6 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 40),
 
             // ===== 30% OFF TEXT =====
@@ -268,19 +255,37 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-
             const SizedBox(height: 30),
 
             // ===== REPEAT ProductCard =====
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                ProductCard(image: "assets/images/fashion3.jpeg"),
-                SizedBox(width: 15),
-                ProductCard(image: "assets/images/fashion2.png"),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                ],
+              ),
             ),
-
             const SizedBox(height: 35),
 
             // ===== SHOP NOW BIG BUTTON =====
@@ -295,7 +300,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
           ],
         ),
@@ -304,8 +308,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// ================= PRODUCT CARD =================
-// ================= PRODUCT CARD =================
 // ================= PRODUCT CARD =================
 class ProductCard extends StatelessWidget {
   final String image;
@@ -320,8 +322,8 @@ class ProductCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => ProductDetailsPage(
               images: [
-                image,                   // الصورة الرئيسية
-                image,                   // تكرار مؤقت (لحد ما تضيفي صور أخرى)
+                image,
+                image, // تكرار مؤقت
                 image,
               ],
             ),
@@ -359,8 +361,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-
-
 
 // ================= 2 صور مع شريط أسود بالنص =================
 Widget imageBoxBlackText(String img, String lbl) {

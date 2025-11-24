@@ -1,13 +1,20 @@
+// screens/favorite.dart
 import 'package:flutter/material.dart';
+import 'package:bridge_app/screens/home.dart';
+import 'package:bridge_app/screens/sign_in.dart';
+import 'package:bridge_app/screens/sign_up.dart';
+import 'package:bridge_app/screens/bag.dart';
 
 class FavoritePage extends StatefulWidget {
   final bool loggedIn;
   final List<Map<String, dynamic>> favoritesItems;
+  final List<Map<String, dynamic>> cartItems;
 
   const FavoritePage({
     super.key,
     this.loggedIn = true,
     this.favoritesItems = const [],
+    this.cartItems = const [],
   });
 
   @override
@@ -17,14 +24,19 @@ class FavoritePage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritePage> {
   late bool loggedIn;
   late List<Map<String, dynamic>> favoritesItems;
-
+  late List<Map<String, dynamic>> cartItems;
   @override
   void initState() {
     super.initState();
     loggedIn = widget.loggedIn;
     favoritesItems = List.from(widget.favoritesItems);
+    cartItems = widget.cartItems;
   }
-
+  void moveToBag(Map<String, dynamic> item) {
+    setState(() {
+      cartItems.add(item);
+    });
+  }
   void removeItem(int index) {
     setState(() {
       favoritesItems.removeAt(index);
@@ -41,6 +53,7 @@ class _FavoritesPageState extends State<FavoritePage> {
       return _FavWithItemsView(
         items: favoritesItems,
         onRemove: removeItem,
+        onMoveToBag: moveToBag,
       );
     }
   }
@@ -88,7 +101,12 @@ class _FavNotLoggedInView extends StatelessWidget {
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SignInPage()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                   child: const Text("SIGN IN"),
                 ),
@@ -98,7 +116,12 @@ class _FavNotLoggedInView extends StatelessWidget {
                 width: double.infinity,
                 height: 45,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const SignUpPage()),
+                    );
+                  },
                   style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.black)),
                   child: const Text("JOIN", style: TextStyle(color: Colors.black)),
                 ),
@@ -153,7 +176,12 @@ class _FavLoggedInEmptyView extends StatelessWidget {
             const SizedBox(height: 25),
            
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HomePage()),
+                  );
+                },
               child: const Text("START SHOPPING"),
             ),
           ],
@@ -169,8 +197,9 @@ class _FavLoggedInEmptyView extends StatelessWidget {
 class _FavWithItemsView extends StatelessWidget {
   final List<Map<String, dynamic>> items;
   final Function(int index) onRemove;
+  final Function(Map<String, dynamic>) onMoveToBag;
 
-  const _FavWithItemsView({required this.items, required this.onRemove});
+  const _FavWithItemsView({required this.items, required this.onRemove,required this.onMoveToBag,});
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +261,7 @@ class _FavWithItemsView extends StatelessWidget {
                       SizedBox(
                         height: 38,
                         child: OutlinedButton(
-                          onPressed: () {},
+                           onPressed: () => onMoveToBag(item),
                           child: const Text("MOVE TO BAG", style: TextStyle(fontSize: 12)),
                         ),
                       ),

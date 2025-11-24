@@ -1,5 +1,7 @@
+// screens/product_detail.dart
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/bag.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final List<String> images; // الصور القادمة من صفحة الهوم
@@ -21,7 +23,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -68,8 +69,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: IconButton(
-                        icon: const Icon(Icons.favorite_border,
-                            color: Colors.black),
+                        icon: const Icon(Icons.favorite_border, color: Colors.black),
                         onPressed: () {},
                       ),
                     ),
@@ -205,8 +205,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: const Center(
                     child: Text(
                       "Get 25% off with code : EEEEE",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -220,8 +219,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("LILAC/BROWN",
-                        style:
-                            TextStyle(fontSize: 15, color: Colors.black54)),
+                        style: TextStyle(fontSize: 15, color: Colors.black54)),
                     Row(
                       children: const [
                         Text(
@@ -249,7 +247,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // تجهيز العنصر
+                      Map<String, dynamic> item = {
+                        "name": "ARRANGE oversized crew neck striped knit jumper",
+                        "price": 117.00,
+                        "image": productImages[0],
+                        "size": "M",
+                        "color": "Lilac/Brown",
+                      };
+
+                      // مؤقتاً نمرره لصفحة الحقيبة
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BagPage(
+                            loggedIn: true,
+                            cartItems: [item],
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text(
                       "ADD TO BAG",
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -298,8 +316,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Text("YOU MIGHT ALSO LIKE",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     Text("16 items", style: TextStyle(color: Colors.black54)),
                   ],
                 ),
@@ -349,7 +366,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         ),
       ),
-
       bottomNavigationBar: BottomNavBar(
         selectedIndex: selectedIndex,
         onTap: (i) {
@@ -450,80 +466,77 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
- Widget buyTheLookGrid() {
-  List<String> imgs = [
-    "assets/images/fashion1.jpeg",
-    "assets/images/fashion3.jpeg",
-    "assets/images/f1.jfif",
-    "assets/images/f2.jfif",
-    "assets/images/f3.jfif",
-  ];
+  Widget buyTheLookGrid() {
+    List<String> imgs = [
+      "assets/images/fashion1.jpeg",
+      "assets/images/fashion3.jpeg",
+      "assets/images/f1.jfif",
+      "assets/images/f2.jfif",
+      "assets/images/f3.jfif",
+    ];
 
-  double bigHeight = 320;
-  double smallHeight = (bigHeight * 0.6) / 2; // تقريبًا 96
-  double increasedSmallHeight = smallHeight ; // 126 لزيادة الارتفاع
+    double bigHeight = 320;
+    double smallHeight = (bigHeight * 0.6) / 2;
+    double increasedSmallHeight = smallHeight;
 
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: Row(
-      children: [
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              imgs[0],
-              height: bigHeight,
-              fit: BoxFit.contain, // بدّلناها من cover إلى contain لتناسب الصورة
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                imgs[0],
+                height: bigHeight,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            children: [
-              SizedBox(
-                height: increasedSmallHeight,
-                child: Row(
-                  children: [
-                    smallLookImage(imgs[1]),
-                    const SizedBox(width: 8),
-                    smallLookImage(imgs[2]),
-                  ],
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: increasedSmallHeight,
+                  child: Row(
+                    children: [
+                      smallLookImage(imgs[1]),
+                      const SizedBox(width: 8),
+                      smallLookImage(imgs[2]),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                height: increasedSmallHeight,
-                child: Row(
-                  children: [
-                    smallLookImage(imgs[3]),
-                    const SizedBox(width: 8),
-                    smallLookImage(imgs[4]),
-                  ],
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: increasedSmallHeight,
+                  child: Row(
+                    children: [
+                      smallLookImage(imgs[3]),
+                      const SizedBox(width: 8),
+                      smallLookImage(imgs[4]),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget smallLookImage(String img) {
-  return Flexible(
-    flex: 1,
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.asset(
-        img,
-        fit: BoxFit.cover,
-        height: double.infinity, // لملء ارتفاع الـ SizedBox
+        ],
       ),
-    ),
-  );
-}
+    );
+  }
 
-
-
+  Widget smallLookImage(String img) {
+    return Flexible(
+      flex: 1,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.asset(
+          img,
+          fit: BoxFit.cover,
+          height: double.infinity,
+        ),
+      ),
+    );
+  }
 }
