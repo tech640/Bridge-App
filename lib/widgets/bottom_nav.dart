@@ -1,5 +1,6 @@
 // widgets/bottom_nav.dart
 import 'package:flutter/material.dart';
+import '../screens/main_layout.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -14,12 +15,12 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconSize = 28.0;
-    final activeColor = Colors.pink; // اللون عند الاختيار
-    final inactiveColor = Colors.grey; // اللون الافتراضي
+    final activeColor = Colors.pink;
+    final inactiveColor = Colors.grey;
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.pink.shade50, // خلفية وردية باهتة
+        color: Colors.pink.shade50,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         boxShadow: [
           BoxShadow(
@@ -54,12 +55,11 @@ class BottomNavBar extends StatelessWidget {
     bool isActive = index == selectedIndex;
 
     return GestureDetector(
-      onTap: () => onTap(index),
+      onTap: () => onTap(index), // فقط استدعاء callback من MainLayout
       behavior: HitTestBehavior.opaque,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // الخط الزهري فوق الأيقونة عند الاختيار
           if (isActive)
             Container(
               height: 3,
@@ -72,7 +72,6 @@ class BottomNavBar extends StatelessWidget {
             )
           else
             const SizedBox(height: 3, width: 30, child: SizedBox()),
-
           Icon(
             icon,
             size: size,

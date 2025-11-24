@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
 import 'package:bridge_app/screens/search.dart';
 import 'package:bridge_app/screens/forYou.dart';
+import 'package:bridge_app/screens/main_layout.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -79,9 +80,14 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const ForYouPage()),
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: ForYouPage(), // بدون const
+                        ),
+                      ),
                     );
                   },
+
                   child: const Text(
                     "FOR YOU",
                     style: TextStyle(

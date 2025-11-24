@@ -1,7 +1,7 @@
 // screens/forYou.dart
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/home.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/main_layout.dart';
 import 'package:bridge_app/screens/search.dart';
 
 class ForYouPage extends StatefulWidget {
@@ -66,7 +66,11 @@ class _ForYouPageState extends State<ForYouPage> {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const HomePage()),
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: HomePage(), // بدون const
+                        ),
+                      ),
                     );
                   },
                   child: const Text(
