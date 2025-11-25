@@ -5,6 +5,8 @@ import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
 import 'package:bridge_app/screens/main_layout.dart';
+import 'package:bridge_app/screens/checkout.dart';
+
 
 
 class BagPage extends StatefulWidget {
@@ -333,7 +335,19 @@ class _BagWithItemsView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("CHECKOUT", style: TextStyle(fontSize: 16)),
+                    child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => CheckoutPage(cartItems: cartItems)),
+                      );
+                    },
+                    child: const Text(
+                      "CHECKOUT",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+
                   ),
                 ),
               ],

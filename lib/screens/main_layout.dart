@@ -31,7 +31,7 @@ class _MainLayoutState extends State<MainLayout> {
     const HomePage(),
     const SearchPage(),
     BagPage(
-      loggedIn: false,
+      loggedIn: true,
       cartItems: [
         {"name": "Sample Item 1", "price": 45.0},
         {"name": "Sample Item 2", "price": 30.0}
