@@ -1,6 +1,5 @@
 // screens/product_detail.dart
 import 'package:flutter/material.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/bag.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -366,12 +365,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: selectedIndex,
-        onTap: (i) {
-          setState(() => selectedIndex = i);
-        },
-      ),
+      
     );
   }
 

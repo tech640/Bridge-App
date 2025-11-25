@@ -4,6 +4,8 @@ import 'package:bridge_app/screens/favorite.dart';
 import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
+import 'package:bridge_app/screens/main_layout.dart';
+
 
 class BagPage extends StatefulWidget {
   final bool loggedIn;
@@ -95,9 +97,13 @@ class _NotLoggedInView extends StatelessWidget {
                 height: 45,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const SignInPage()),
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: SignInPage(), // بدون const
+                        ),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
@@ -110,9 +116,13 @@ class _NotLoggedInView extends StatelessWidget {
                 height: 45,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const SignUpPage()),
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: SignUpPage(), // بدون const
+                        ),
+                      ),
                     );
                   },
                   style: OutlinedButton.styleFrom(

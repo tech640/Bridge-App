@@ -2,7 +2,7 @@
 import 'package:bridge_app/screens/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
-import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/search2.dart';
 import 'package:bridge_app/screens/forYou.dart';
 import 'package:bridge_app/screens/main_layout.dart';
 
@@ -35,7 +35,11 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const SearchPage()),
+                    MaterialPageRoute(
+                    builder: (_) => MainLayoutWrapper(
+                      child: Search2Page(), // بدون const
+                    ),
+                  ),
                   );
                 },
                 child: Container(
@@ -321,12 +325,13 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ProductDetailsPage(
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MainLayoutWrapper(
+            child: ProductDetailsPage(
               images: [
                 image,
                 image, // تكرار مؤقت
@@ -334,38 +339,40 @@ class ProductCard extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
-      child: Container(
-        width: 165,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black.withOpacity(0.3)),
         ),
-        child: Column(
-          children: [
-            Container(
-              height: 190,
-              color: Colors.grey[100],
-              child: Image.asset(image, fit: BoxFit.cover),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Long Sleeve Dress",
-              style: TextStyle(fontSize: 14),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              "\$ 45.00",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Icon(Icons.favorite_border),
-            const SizedBox(height: 10),
-          ],
-        ),
+      );
+    },
+    child: Container(
+      width: 165,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black.withOpacity(0.3)),
       ),
-    );
-  }
+      child: Column(
+        children: [
+          Container(
+            height: 190,
+            color: Colors.grey[100],
+            child: Image.asset(image, fit: BoxFit.cover),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            "Long Sleeve Dress",
+            style: TextStyle(fontSize: 14),
+          ),
+          const SizedBox(height: 5),
+          const Text(
+            "\$ 45.00",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          const Icon(Icons.favorite_border),
+          const SizedBox(height: 10),
+        ],
+      ),
+    ),
+  );
+}
+
 }
 
 // ================= 2 صور مع شريط أسود بالنص =================

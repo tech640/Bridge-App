@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/main_layout.dart';
-import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/search2.dart';
 
 class ForYouPage extends StatefulWidget {
   const ForYouPage({super.key});
@@ -31,7 +31,11 @@ class _ForYouPageState extends State<ForYouPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const SearchPage()),
+                     MaterialPageRoute(
+                    builder: (_) => MainLayoutWrapper(
+                      child: Search2Page(), // بدون const
+                    ),
+                  ),
                   );
                 },
                 child: Container(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
-import 'package:bridge_app/screens/bag.dart';
+import 'package:bridge_app/screens/main_layout.dart';
 
 class FavoritePage extends StatefulWidget {
   final bool loggedIn;
@@ -179,7 +179,11 @@ class _FavLoggedInEmptyView extends StatelessWidget {
               onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => const HomePage()),
+                      MaterialPageRoute(
+                            builder: (_) => MainLayoutWrapper(
+                              child: HomePage(), // الصفحة الداخلية
+                            ),
+                          ),
                   );
                 },
               child: const Text("START SHOPPING"),

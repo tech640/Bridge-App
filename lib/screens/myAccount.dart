@@ -1,19 +1,17 @@
 // screens/myAccount.dart
 import 'package:flutter/material.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
 import 'package:bridge_app/screens/setting.dart';
-import 'package:bridge_app/screens/search.dart';
-import 'package:bridge_app/screens/home.dart';
-import 'package:bridge_app/screens/bag.dart';
 import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
+import 'package:bridge_app/screens/main_layout.dart';
+
 
 
 class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
 
-  const MyAccountPage({super.key, this.isLoggedIn = true});
-  // const MyAccountPage({super.key, this.isLoggedIn = false});
+  // const MyAccountPage({super.key, this.isLoggedIn = true});
+  const MyAccountPage({super.key, this.isLoggedIn = false});
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +79,12 @@ class MyAccountPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const SignInPage()),
-              );
+                MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: SignInPage(), // بدون const
+                        ),
+                      ),
+                );
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               child: const Text("SIGN IN"),
@@ -95,7 +97,11 @@ class MyAccountPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const SignUpPage()),
+                  MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: SignUpPage(), // بدون const
+                        ),
+                      ),
               );
             },
             child: const Text(

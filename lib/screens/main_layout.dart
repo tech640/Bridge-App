@@ -10,12 +10,14 @@ class MainLayout extends StatefulWidget {
   final Widget? child;
   final int initialIndex;
   final bool isInnerPage;
+  final VoidCallback? onBack;
 
   const MainLayout({
     super.key,
     this.child,
     this.initialIndex = 0,
     this.isInnerPage = false,
+     this.onBack,
   });
 
   @override
@@ -29,7 +31,7 @@ class _MainLayoutState extends State<MainLayout> {
     const HomePage(),
     const SearchPage(),
     BagPage(
-      loggedIn: true,
+      loggedIn: false,
       cartItems: [
         {"name": "Sample Item 1", "price": 45.0},
         {"name": "Sample Item 2", "price": 30.0}
@@ -51,6 +53,11 @@ class _MainLayoutState extends State<MainLayout> {
       return;
     }
 
+    if (widget.onBack != null) {
+      widget.onBack!(); // ترجع خطوة لورا
+      return;
+    }
+
     // صفحة داخلية → نرجع للصفحة الأساسية المطلوبة
     Navigator.pushReplacement(
       context,
@@ -61,6 +68,7 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   @override
+  // fallback: لو ما في callback نرجع للصفحة الأساسية
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child ?? pages[selectedIndex],

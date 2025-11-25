@@ -1,6 +1,5 @@
 // widgets/bottom_nav.dart
 import 'package:flutter/material.dart';
-import '../screens/main_layout.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;

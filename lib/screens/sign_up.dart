@@ -1,7 +1,6 @@
 // screens/sign_up.dart
 
 import 'package:flutter/material.dart';
-import 'package:bridge_app/screens/myAccount.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -48,10 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black, size: 26),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const MyAccountPage()),
-            );
+                    Navigator.pop(context); // ترجع خطوة لورا فقط
           },
         ),
       ),
