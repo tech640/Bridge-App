@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                       backgroundColor: Colors.white,
                       side: const BorderSide(color: Colors.black),
                     ),
-                    onPressed: () {},
+                    onPressed: () => openCollection(context, "Party preview"),
                     child: const Text(
                       "SHOP NOW",
                       style: TextStyle(color: Colors.black),
@@ -298,15 +298,18 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 35),
 
-            // ===== SHOP NOW BIG BUTTON =====
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              color: Colors.black,
-              child: const Center(
-                child: Text(
-                  "SHOP NOW",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+            // ===== SHOP NOW (BOTTOM) =====
+            GestureDetector(
+              onTap: () => openCollection(context, "Party preview"),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                color: Colors.black,
+                child: const Center(
+                  child: Text(
+                    "SHOP NOW",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
                 ),
               ),
             ),

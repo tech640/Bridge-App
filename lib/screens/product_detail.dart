@@ -1,4 +1,5 @@
 // screens/product_detail.dart
+import 'package:bridge_app/screens/size_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/bag.dart';
 
@@ -15,8 +16,77 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   int selectedIndex = 0;
   int currentImage = 0;
 
-  // نستخدم الصور القادمة بدل الصور الثابتة
+  // حالة كل أكورديون (true = مفتوح، false = مغلق)
+  Map<String, bool> _accordionExpanded = {
+    "Product Details": false,
+    "Brand": false,
+    "Size & Fit": false,
+    "Looking After Me": false,
+    "About Me": false,
+  };
+
+  // قائمة المفضلات داخل الصفحة
+  List<Map<String, dynamic>> favoritesItems = [];
+
+  // حالة زر القلب العلوي
+  bool isFavorite = false;
+
+  // حالة زر القلب السفلي بجانب "SAVE"
+  bool isFavoriteBottom = false;
+
+  // عداد المفضلات (ابتداء من 545)
+  int favoriteCount = 545;
+
   List<String> get productImages => widget.images;
+
+  // المنتج الحالي (حسب معلومات الصفحة)
+  Map<String, dynamic> get currentProduct => {
+        "name": "ARRANGE oversized crew neck striped knit jumper",
+        "price": 117.00,
+        "image": productImages.isNotEmpty ? productImages[0] : "",
+        "size": "M",
+        "color": "Lilac/Brown",
+      };
+
+  void toggleFavorite() {
+    setState(() {
+      if (isFavorite) {
+        favoritesItems.removeWhere((item) => item["image"] == currentProduct["image"]);
+        isFavorite = false;
+        isFavoriteBottom = false;
+        favoriteCount = (favoriteCount > 0) ? favoriteCount - 1 : 0;
+      } else {
+        favoritesItems.add(currentProduct);
+        isFavorite = true;
+        isFavoriteBottom = true;
+        favoriteCount++;
+      }
+    });
+  }
+
+  void toggleFavoriteBottom() {
+    setState(() {
+      if (isFavoriteBottom) {
+        favoritesItems.removeWhere((item) => item["image"] == currentProduct["image"]);
+        isFavoriteBottom = false;
+        isFavorite = false;
+        favoriteCount = (favoriteCount > 0) ? favoriteCount - 1 : 0;
+      } else {
+        favoritesItems.add(currentProduct);
+        isFavoriteBottom = true;
+        isFavorite = true;
+        favoriteCount++;
+      }
+    });
+
+    // عرض Snackbar تأكيد
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(" Added to favorites  "),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +131,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     ),
                   ),
 
-                  // Save Button
+                  // Save Button - مفعّل للتبديل بين مفضلة/غير مفضلة
                   Positioned(
                     right: 10,
                     top: 10,
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: IconButton(
-                        icon: const Icon(Icons.favorite_border, color: Colors.black),
-                        onPressed: () {},
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Colors.black,
+                        ),
+                        onPressed: toggleFavorite,
                       ),
                     ),
                   ),
@@ -78,7 +151,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 10),
 
-              // ================= SLIDER INDICATORS =================
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -98,20 +170,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 10),
 
-              // ================= LIKES =================
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  Icon(Icons.favorite, color: Colors.black),
-                  SizedBox(width: 5),
+                children: [
+                  const Icon(Icons.favorite, color: Colors.black),
+                  const SizedBox(width: 5),
                   Text(
-                    "545",
-                    style: TextStyle(
+                    "$favoriteCount",
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                 ],
               ),
 
@@ -124,13 +195,31 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 20),
 
-              // ================= ACTION BUTTONS =================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    actionItem(Icons.favorite_border, "SAVE"),
+                    GestureDetector(
+                      onTap: toggleFavoriteBottom,
+                      child: Column(
+                        children: [
+                          Icon(
+                            isFavoriteBottom ? Icons.favorite : Icons.favorite_border,
+                            size: 26,
+                            color: isFavoriteBottom ? Colors.red : Colors.black,
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            "SAVE",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isFavoriteBottom ? Colors.red : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     actionItem(Icons.shop_2, "BUY THE LOOK"),
                     actionItem(Icons.play_arrow, "VIDEO"),
                   ],
@@ -139,7 +228,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 25),
 
-              // ================= COLOR SECTION =================
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Align(
@@ -175,8 +263,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "\$ 117.00",
-                    style: TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -247,7 +334,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       backgroundColor: Colors.green,
                     ),
                     onPressed: () {
-                      // تجهيز العنصر
                       Map<String, dynamic> item = {
                         "name": "ARRANGE oversized crew neck striped knit jumper",
                         "price": 117.00,
@@ -256,7 +342,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         "color": "Lilac/Brown",
                       };
 
-                      // مؤقتاً نمرره لصفحة الحقيبة
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -300,22 +385,132 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 20),
 
-              accordionTile("Product Details"),
-              accordionTile("Brand"),
-              accordionTile("Size & Fit"),
-              accordionTile("Looking After Me"),
-              accordionTile("About Me"),
+              ..._accordionExpanded.entries.map((entry) {
+                String title = entry.key;
+                bool isExpanded = entry.value;
+
+                String content = "";
+                Widget? extraWidget;
+
+                switch (title) {
+                  case "Product Details":
+                    content = '''
+Dresses by ARRANGE
+
+* Floral design
+* Bandeau style
+* Zip-back fastening
+* Kick split
+* Regular fit
+
+Product Code: 148633829
+''';
+                    break;
+
+                  case "Brand":
+                    content = '''
+Luxe embellishments, modern silhouettes, premium fabrics and hand-painted prints are just some of the impressive design signatures of ARRANGE's capsule collections. The London-born and women-led brand is dedicated to directional pieces with a feminine edge, offering up a regular capsule of occasionwear and elevated essentials in sizes 4-30. With jeans, co-ords, separates and dresses (with pockets) in the mix, ARRANGE promises to make day-to-night dressing a breeze.
+''';
+                    break;
+
+                  case "Size & Fit":
+                    content = '''
+Model's height: 178cm / 5' 10''
+Model is wearing: EU 36
+''';
+                    extraWidget = Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SizeGuidePage(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                          ),
+                          child: const Text(
+                            "View Size Guide",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    );
+                    break;
+
+                  case "Looking After Me":
+                    content = "Hand wash only";
+                    break;
+
+                  case "About Me":
+                    content = '''
+Velvet: a plush fabric with a soft, hairy surface
+
+Lining: 100% Polyester, Main: 100% Polyester.
+''';
+                    break;
+                }
+
+                return Column(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _accordionExpanded[title] = !isExpanded;
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                            Icon(isExpanded ? Icons.remove : Icons.add),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (isExpanded)
+                      Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              content,
+                              style:
+                                  const TextStyle(fontSize: 14, color: Colors.black87),
+                            ),
+                            if (extraWidget != null) extraWidget,
+                          ],
+                        ),
+                      ),
+                    const Divider(),
+                  ],
+                );
+              }).toList(),
 
               const SizedBox(height: 30),
 
-              // ================= YOU MIGHT ALSO LIKE =================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Text("YOU MIGHT ALSO LIKE",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     Text("16 items", style: TextStyle(color: Colors.black54)),
                   ],
                 ),
@@ -365,13 +560,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         ),
       ),
-      
+     
     );
   }
 
-  // ===========================================================
   // ===================== WIDGETS =============================
-  // ===========================================================
 
   Widget actionItem(IconData icon, String text) {
     return Column(
@@ -391,26 +584,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         border: Border.all(color: Colors.black54),
       ),
       child: Image.asset(img, fit: BoxFit.cover),
-    );
-  }
-
-  Widget accordionTile(String title) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600)),
-              const Icon(Icons.add),
-            ],
-          ),
-        ),
-        const Divider(),
-      ],
     );
   }
 
@@ -483,7 +656,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               child: Image.asset(
                 imgs[0],
                 height: bigHeight,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -491,45 +664,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           Expanded(
             child: Column(
               children: [
-                SizedBox(
-                  height: increasedSmallHeight,
-                  child: Row(
-                    children: [
-                      smallLookImage(imgs[1]),
-                      const SizedBox(width: 8),
-                      smallLookImage(imgs[2]),
-                    ],
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    imgs[1],
+                    height: smallHeight,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: increasedSmallHeight,
-                  child: Row(
-                    children: [
-                      smallLookImage(imgs[3]),
-                      const SizedBox(width: 8),
-                      smallLookImage(imgs[4]),
-                    ],
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    imgs[2],
+                    height: increasedSmallHeight,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ],
             ),
-          ),
+          )
         ],
-      ),
-    );
-  }
-
-  Widget smallLookImage(String img) {
-    return Flexible(
-      flex: 1,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.asset(
-          img,
-          fit: BoxFit.cover,
-          height: double.infinity,
-        ),
       ),
     );
   }

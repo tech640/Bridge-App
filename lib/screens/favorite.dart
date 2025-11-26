@@ -4,6 +4,8 @@ import 'package:bridge_app/screens/home.dart';
 import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
 import 'package:bridge_app/screens/main_layout.dart';
+import 'package:bridge_app/screens/product_detail.dart';
+
 
 class FavoritePage extends StatefulWidget {
   final bool loggedIn;
@@ -203,7 +205,11 @@ class _FavWithItemsView extends StatelessWidget {
   final Function(int index) onRemove;
   final Function(Map<String, dynamic>) onMoveToBag;
 
-  const _FavWithItemsView({required this.items, required this.onRemove,required this.onMoveToBag,});
+  const _FavWithItemsView({
+    required this.items,
+    required this.onRemove,
+    required this.onMoveToBag,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -220,63 +226,82 @@ class _FavWithItemsView extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = items[index];
 
-          return Container(
-            padding: const EdgeInsets.all(12),
-            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.grey.shade200,
-                    image: item["image"] != null
-                        ? DecorationImage(
-                            image: NetworkImage(item["image"]),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
+          return GestureDetector(
+            onTap: () {
+              if (item["images"] != null && item["images"] is List<String>) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ProductDetailsPage(images: List<String>.from(item["images"])),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item["name"] ?? "Product",
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      Text("Size: ${item['size'] ?? '—'}"),
-                      Text("Color: ${item['color'] ?? '—'}"),
-                      const SizedBox(height: 8),
-                      Text(
-                        "\$${item['price'] ?? 0}",
-                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        height: 38,
-                        child: OutlinedButton(
-                           onPressed: () => onMoveToBag(item),
-                          child: const Text("MOVE TO BAG", style: TextStyle(fontSize: 12)),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ProductDetailsPage(images: [item["image"] ?? ""]),
+                  ),
+                );
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey.shade200,
+                      image: item["image"] != null
+                          ? DecorationImage(
+                              image: AssetImage(item["image"]),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item["name"] ?? "Product",
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 4),
+                        Text("Size: ${item['size'] ?? '—'}"),
+                        Text("Color: ${item['color'] ?? '—'}"),
+                        const SizedBox(height: 8),
+                        Text(
+                          "\$${item['price'] ?? 0}",
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          height: 38,
+                          child: OutlinedButton(
+                            onPressed: () => onMoveToBag(item),
+                            child: const Text("MOVE TO BAG", style: TextStyle(fontSize: 12)),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () => onRemove(index),
-                  icon: const Icon(Icons.delete_outline),
-                ),
-              ],
+                  IconButton(
+                    onPressed: () => onRemove(index),
+                    icon: const Icon(Icons.delete_outline),
+                  ),
+                ],
+              ),
             ),
           );
         },

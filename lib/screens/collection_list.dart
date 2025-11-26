@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/collection.dart'; // ← مهم
 
 class CollectionListPage extends StatefulWidget {
   final String title;
@@ -81,20 +82,17 @@ class _CollectionListPageState extends State<CollectionListPage> {
         ),
       ),
 
-      /// ====== البار السفلي نفسه تماماً ======
       bottomNavigationBar: BottomNavBar(
         selectedIndex: selectedIndex,
         onTap: (i) {
           setState(() => selectedIndex = i);
-
-          // نفس سلوك صفحة SearchPage تماماً
           if (i == 0) Navigator.pop(context);
         },
       ),
     );
   }
 
-  // صندوق عنوان القسم
+  // عنوان القسم
   Widget sectionTitle(String title) {
     return Container(
       width: double.infinity,
@@ -110,7 +108,7 @@ class _CollectionListPageState extends State<CollectionListPage> {
     );
   }
 
-  // قسم القوائم
+  // القوائم
   Widget buildListSection(List<String> items) {
     return ListView.separated(
       shrinkWrap: true,
@@ -137,7 +135,16 @@ class _CollectionListPageState extends State<CollectionListPage> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          onTap: () {},
+
+          /// ← التعديل المهم
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CollectionPage(title: items[index]),
+              ),
+            );
+          },
         );
       },
     );
