@@ -76,6 +76,7 @@ flutter:
     - assets/icons/facebook.png
     - assets/img_SearchPage/
     - assets/img_ProductDetails/
+    - assets/img_SizeGuide/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

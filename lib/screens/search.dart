@@ -1,4 +1,5 @@
 // screens/search.dart
+import 'package:bridge_app/screens/men_search.dart';
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection_list.dart';
 import 'package:bridge_app/screens/main_layout.dart';
@@ -22,7 +23,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           children: [
             // الجزء الثابت - البحث والتبويبات
-            Padding(
+           Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
               child: Container(
                 height: 50,
@@ -64,26 +65,40 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    const Text(
-                      "WOMEN",
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 3),
-                    Container(height: 2, width: 55, color: Colors.blue),
-                  ],
-                ),
-                const SizedBox(width: 40),
-                const Text(
-                  "MEN",
-                  style: TextStyle(fontSize: 15, color: Colors.black54),
-                ),
-              ],
-            ),
+           Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    /// WOMEN (صفحة حالية)
+    Column(
+      children: [
+        const Text(
+          "WOMEN",
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 3),
+        Container(height: 2, width: 55, color: Colors.blue),
+      ],
+    ),
+
+    const SizedBox(width: 40),
+
+    /// MEN (ينتقل لصفحة جديدة)
+    GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const MenSearchPage()),
+        );
+      },
+      child: const Text(
+        "MEN",
+        style: TextStyle(fontSize: 15, color: Colors.black54),
+      ),
+    ),
+  ],
+),
+
 
             const SizedBox(height: 10),
 
@@ -368,8 +383,17 @@ _categoryCard(
 }
 
 
-  Widget _topShopBanner() {
-    return Padding(
+Widget _topShopBanner() {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const CollectionListPage(title: "TOPSHOP"),
+        ),
+      );
+    },
+    child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
         width: double.infinity,
@@ -389,8 +413,11 @@ _categoryCard(
           textAlign: TextAlign.center,
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 
   Widget _horizontalProducts() {
     return SizedBox(

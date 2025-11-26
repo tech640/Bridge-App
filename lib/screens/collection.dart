@@ -1,5 +1,4 @@
 // screens/collection.dart
-// Updated collection.dart with SORT modal only (no extra data)
 
 import 'package:flutter/material.dart';
 import 'package:bridge_app/widgets/bottom_nav.dart';
@@ -96,8 +95,8 @@ class _CollectionPageState extends State<CollectionPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 14),
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                       child: Row(
                         children: [
                           Icon(
@@ -158,13 +157,11 @@ class _CollectionPageState extends State<CollectionPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
-                // SORT BUTTON
+                /// SORT
                 GestureDetector(
                   onTap: openSortMenu,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(6),
@@ -186,8 +183,7 @@ class _CollectionPageState extends State<CollectionPage> {
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(6),
@@ -238,7 +234,6 @@ class _CollectionPageState extends State<CollectionPage> {
         selectedIndex: selectedIndex,
         onTap: (i) {
           setState(() => selectedIndex = i);
-
           if (i == 0) Navigator.pop(context);
         },
       ),
