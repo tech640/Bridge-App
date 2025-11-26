@@ -1,11 +1,8 @@
 // screens/search.dart
 import 'package:flutter/material.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
-import 'package:bridge_app/screens/myAccount.dart';
-import 'package:bridge_app/screens/home.dart';
-import 'package:bridge_app/screens/bag.dart';
 import 'package:bridge_app/screens/collection_list.dart';
-
+import 'package:bridge_app/screens/main_layout.dart';
+import 'package:bridge_app/screens/search2.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -28,27 +25,42 @@ class _SearchPageState extends State<SearchPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
               child: Container(
+                height: 50,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(color: Colors.black12),
                 ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.search),
-                    const SizedBox(width: 6),
-                    const Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Search",
-                          border: InputBorder.none,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: Search2Page(), // بدون const
                         ),
                       ),
-                    ),
-                    const Icon(Icons.camera_alt_outlined),
-                  ],
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(Icons.search),
+                      const SizedBox(width: 6),
+                      const Expanded(
+                        child: Text(
+                          "Search",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      const Icon(Icons.camera_alt_outlined),
+                    ],
+                  ),
                 ),
+
               ),
             ),
 

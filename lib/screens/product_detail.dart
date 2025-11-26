@@ -1,9 +1,9 @@
+// screens/product_detail.dart
 import 'package:flutter/material.dart';
-import 'package:bridge_app/widgets/bottom_nav.dart';
+import 'package:bridge_app/screens/bag.dart';
 
 class ProductDetailsPage extends StatefulWidget {
-  final List<String> images;
-  
+  final List<String> images; // الصور القادمة من صفحة الهوم
 
   const ProductDetailsPage({super.key, required this.images});
 
@@ -15,26 +15,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   int selectedIndex = 0;
   int currentImage = 0;
 
-  final List<String> productImages = [
-    "assets/img_ProductDetails/i1.jfif",
-    "assets/img_ProductDetails/i4.jfif",
-    "assets/img_ProductDetails/i5.jfif",
-    "assets/img_ProductDetails/i6.jfif",
-  ];
+  // نستخدم الصور القادمة بدل الصور الثابتة
+  List<String> get productImages => widget.images;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
-      // ================= BODY WITH SCROLL =================
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(height: 10),
 
-              // ======== TOP IMAGE + BACK & SAVE ========
+              // ================= MAIN IMAGE SLIDER =================
               Stack(
                 children: [
                   SizedBox(
@@ -44,10 +38,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         setState(() => currentImage = i);
                       },
                       children: productImages
-                          .map((img) => Container(
-                                color: Colors.white,
-                                child: Image.asset(img, fit: BoxFit.cover),
-                              ))
+                          .map(
+                            (img) => Container(
+                              color: Colors.white,
+                              child: Image.asset(img, fit: BoxFit.cover),
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
@@ -65,15 +61,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     ),
                   ),
 
-                  // Save (Heart) Button
+                  // Save Button
                   Positioned(
                     right: 10,
                     top: 10,
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       child: IconButton(
-                        icon: const Icon(Icons.favorite_border,
-                            color: Colors.black),
+                        icon: const Icon(Icons.favorite_border, color: Colors.black),
                         onPressed: () {},
                       ),
                     ),
@@ -83,7 +78,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 10),
 
-              // ======== INDICATORS ========
+              // ================= SLIDER INDICATORS =================
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
@@ -95,8 +90,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                       shape: BoxShape.circle,
-                      color:
-                          i == currentImage ? Colors.black : Colors.white,
+                      color: i == currentImage ? Colors.black : Colors.white,
                     ),
                   ),
                 ),
@@ -104,7 +98,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 10),
 
-              // ======== LIKES ========
+              // ================= LIKES =================
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: const [
@@ -113,7 +107,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   Text(
                     "545",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                   SizedBox(width: 20),
                 ],
@@ -121,15 +117,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 15),
 
-              // ======== MODEL DETAILS ========
               const Text(
-                "Model: 173.5 / 58 | Wearing S- EU 36-38",
+                "Model: 173.5 / 58 | Wearing S - EU 36-38",
                 style: TextStyle(color: Colors.black54, fontSize: 14),
               ),
 
               const SizedBox(height: 20),
 
-              // ======== ACTION BUTTONS ========
+              // ================= ACTION BUTTONS =================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -144,7 +139,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 25),
 
-              // ======== COLOR ========
+              // ================= COLOR SECTION =================
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Align(
@@ -152,14 +147,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: Text(
                     "COLOUR: Lilac/Brown",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),
 
               const SizedBox(height: 12),
 
-              // ======== COLOR IMAGES ========
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -173,21 +169,20 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 40),
 
-               // PRICE
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "\$ 117.00",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
 
               const SizedBox(height: 10),
 
-              // PRODUCT TITLE
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -198,7 +193,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 10),
 
-              // DISCOUNT BAR
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
@@ -210,8 +204,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   child: const Center(
                     child: Text(
                       "Get 25% off with code : EEEEE",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -219,7 +212,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 20),
 
-              // COLOR + SIZE
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -245,7 +237,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 20),
 
-              // ADD TO BAG BUTTON
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
@@ -255,7 +246,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // تجهيز العنصر
+                      Map<String, dynamic> item = {
+                        "name": "ARRANGE oversized crew neck striped knit jumper",
+                        "price": 117.00,
+                        "image": productImages[0],
+                        "size": "M",
+                        "color": "Lilac/Brown",
+                      };
+
+                      // مؤقتاً نمرره لصفحة الحقيبة
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BagPage(
+                            loggedIn: true,
+                            cartItems: [item],
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text(
                       "ADD TO BAG",
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -266,7 +277,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 20),
 
-              // DELIVERY INFO
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
@@ -290,7 +300,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 20),
 
-              // ACCORDION SECTIONS
               accordionTile("Product Details"),
               accordionTile("Brand"),
               accordionTile("Size & Fit"),
@@ -299,15 +308,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 30),
 
-              // YOU MIGHT ALSO LIKE
+              // ================= YOU MIGHT ALSO LIKE =================
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     Text("YOU MIGHT ALSO LIKE",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     Text("16 items", style: TextStyle(color: Colors.black54)),
                   ],
                 ),
@@ -319,7 +327,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 30),
 
-              // BUY THE LOOK
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Align(
@@ -336,7 +343,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               const SizedBox(height: 30),
 
-              // PEOPLE ALSO BOUGHT
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -355,26 +361,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               horizontalProductsList(),
 
               const SizedBox(height: 50),
-
-
-              const SizedBox(height: 40),
             ],
           ),
         ),
       ),
-
-              
-      // ================== BOTTOM NAV ==================
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: selectedIndex,
-        onTap: (i) {
-          setState(() => selectedIndex = i);
-        },
-      ),
+      
     );
   }
 
-  // ======== ACTION BUTTON WIDGET ========
+  // ===========================================================
+  // ===================== WIDGETS =============================
+  // ===========================================================
+
   Widget actionItem(IconData icon, String text) {
     return Column(
       children: [
@@ -385,7 +383,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
-  // ======== COLOR BOX WIDGET ========
   Widget colorBox(String img) {
     return Container(
       width: 80,
@@ -397,7 +394,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
- // ===== ACCORDION TILE =====
   Widget accordionTile(String title) {
     return Column(
       children: [
@@ -407,7 +403,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(title,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600)),
               const Icon(Icons.add),
             ],
           ),
@@ -417,12 +414,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
-  // ===== HORIZONTAL PRODUCTS LIST =====
   Widget horizontalProductsList() {
     return SizedBox(
       height: 250,
       child: ListView(
-    scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.horizontal,
         children: [
           productItem("assets/images/fashion1.jpeg", "\$ 45.00"),
           productItem("assets/images/fashion2.jpeg", "\$ 45.00"),
@@ -432,53 +428,38 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
-  // ===== PRODUCT ITEM FOR HORIZONTAL LIST =====
   Widget productItem(String img, String price) {
-  return Container(
-    width: 160,
-    margin: const EdgeInsets.only(left: 20),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.asset(
-            img,
-            height: 160,
-            fit: BoxFit.cover,
-          ),
-        ),
-
-        const SizedBox(height: 6),
-
-        const Text(
-          "Long Sleeve Dress",
-          style: TextStyle(fontSize: 13),
-        ),
-
-        const SizedBox(height: 4),
-
-        // ←← السعر + القلب جنب بعض
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              price,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
+    return Container(
+      width: 160,
+      margin: const EdgeInsets.only(left: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              img,
+              height: 160,
+              fit: BoxFit.cover,
             ),
-            const Icon(Icons.favorite_border, size: 20),
-          ],
-        ),
-      ],
-    ),
-  );
-}
+          ),
+          const SizedBox(height: 6),
+          const Text("Long Sleeve Dress", style: TextStyle(fontSize: 13)),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(price,
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold)),
+              const Icon(Icons.favorite_border, size: 20),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-
-  // ===== BUY THE LOOK GRID =====
   Widget buyTheLookGrid() {
     List<String> imgs = [
       "assets/images/fashion1.jpeg",
@@ -487,73 +468,69 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       "assets/images/f2.jfif",
       "assets/images/f3.jfif",
     ];
-  double bigHeight = 320;
 
-     return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: Row(
-      children: [
-        // ===== الصورة الكبيرة على اليسار =====
-        Expanded(
-          flex: 1,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              imgs[0],
-              height: bigHeight,
-              fit: BoxFit.cover,
+    double bigHeight = 320;
+    double smallHeight = (bigHeight * 0.6) / 2;
+    double increasedSmallHeight = smallHeight;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset(
+                imgs[0],
+                height: bigHeight,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
-        ),
-
-        const SizedBox(width: 10),
-
-        // ===== الصور الصغيرة 2×2 على اليمين =====
-        Expanded(
-          flex: 1,
-          child: Column(
-            children: [
-             SizedBox(
-               height: (bigHeight * 0.6) / 2,
-                child: Row(
-                  children: [
-                    smallLookImage(imgs[1]),
-                    const SizedBox(width: 8),
-                    smallLookImage(imgs[2]),
-                  ],
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: increasedSmallHeight,
+                  child: Row(
+                    children: [
+                      smallLookImage(imgs[1]),
+                      const SizedBox(width: 8),
+                      smallLookImage(imgs[2]),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-               height: (bigHeight * 0.6) / 2,
-                child: Row(
-                  children: [
-                    smallLookImage(imgs[3]),
-                    const SizedBox(width: 8),
-                    smallLookImage(imgs[4]),
-                  ],
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: increasedSmallHeight,
+                  child: Row(
+                    children: [
+                      smallLookImage(imgs[3]),
+                      const SizedBox(width: 8),
+                      smallLookImage(imgs[4]),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
-// ========== ويدجت الصور الصغيرة ==========
-Widget smallLookImage(String img) {
-  return Expanded(
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Image.asset(
-        img,
-        fit: BoxFit.cover,
+        ],
       ),
-    ),
-  );
-}
+    );
   }
 
-
+  Widget smallLookImage(String img) {
+    return Flexible(
+      flex: 1,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.asset(
+          img,
+          fit: BoxFit.cover,
+          height: double.infinity,
+        ),
+      ),
+    );
+  }
+}

@@ -1,8 +1,10 @@
 // screens/home.dart
+import 'package:bridge_app/screens/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:bridge_app/screens/collection.dart';
-import 'package:bridge_app/screens/search.dart';
+import 'package:bridge_app/screens/search2.dart';
 import 'package:bridge_app/screens/forYou.dart';
+import 'package:bridge_app/screens/main_layout.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,7 +22,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfffaf6f8),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +35,11 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const SearchPage()),
+                    MaterialPageRoute(
+                    builder: (_) => MainLayoutWrapper(
+                      child: Search2Page(), // بدون const
+                    ),
+                  ),
                   );
                 },
                 child: Container(
@@ -58,7 +63,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 25),
 
             // ===== TABS (HOME / FOR YOU) =====
@@ -76,24 +80,28 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 25),
-                 GestureDetector(
-                   onTap: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const ForYouPage()),
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: ForYouPage(), // بدون const
+                        ),
+                      ),
                     );
                   },
-                 child: const Text(
-                  "FOR YOU",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
+
+                  child: const Text(
+                    "FOR YOU",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
-               ),
               ],
             ),
-
             const SizedBox(height: 20),
 
             // ===== BANNER =====
@@ -123,7 +131,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
 
             // ===== Fashion Image =====
@@ -137,7 +144,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 30),
 
             // ===== PARTY PREVIEW HEADER =====
@@ -164,7 +170,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
 
             // ===== صف صورتين ProductCard =====
@@ -176,7 +181,6 @@ class HomePage extends StatelessWidget {
                 ProductCard(image: "assets/images/fashion2.png"),
               ],
             ),
-
             const SizedBox(height: 30),
 
             // ===== Banner Black =====
@@ -211,7 +215,6 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 40),
 
             // ===== NEW IN TITLE =====
@@ -221,10 +224,8 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
             ),
-
             const SizedBox(height: 25),
 
-            // ===== 4 صور New In =====
             // ===== 4 صور New In مع إضافة الربط =====
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -240,9 +241,7 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 15),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -257,7 +256,6 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 40),
 
             // ===== 30% OFF TEXT =====
@@ -267,19 +265,37 @@ class HomePage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-
             const SizedBox(height: 30),
 
             // ===== REPEAT ProductCard =====
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                ProductCard(image: "assets/images/fashion3.jpeg"),
-                SizedBox(width: 15),
-                ProductCard(image: "assets/images/fashion2.png"),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion3.jpeg"),
+                  SizedBox(width: 15),
+                  ProductCard(image: "assets/images/fashion2.png"),
+                  SizedBox(width: 15),
+                ],
+              ),
             ),
-
             const SizedBox(height: 35),
 
             // ===== SHOP NOW BIG BUTTON =====
@@ -294,7 +310,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
           ],
         ),
@@ -310,7 +325,24 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MainLayoutWrapper(
+            child: ProductDetailsPage(
+              images: [
+                image,
+                image, // تكرار مؤقت
+                image,
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+    child: Container(
       width: 165,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black.withOpacity(0.3)),
@@ -337,8 +369,10 @@ class ProductCard extends StatelessWidget {
           const SizedBox(height: 10),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 // ================= 2 صور مع شريط أسود بالنص =================

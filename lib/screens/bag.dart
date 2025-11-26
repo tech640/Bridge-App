@@ -1,5 +1,13 @@
 // screens/bag.dart
 import 'package:flutter/material.dart';
+import 'package:bridge_app/screens/favorite.dart';
+import 'package:bridge_app/screens/home.dart';
+import 'package:bridge_app/screens/sign_in.dart';
+import 'package:bridge_app/screens/sign_up.dart';
+import 'package:bridge_app/screens/main_layout.dart';
+import 'package:bridge_app/screens/checkout.dart';
+
+
 
 class BagPage extends StatefulWidget {
   final bool loggedIn;
@@ -9,10 +17,6 @@ class BagPage extends StatefulWidget {
     super.key,
     this.loggedIn = true,
     this.cartItems = const [],
-    // this.cartItems=const [
-    //                       {"name": "Sample Item 1", "price": 45.0},
-    //                       {"name": "Sample Item 2", "price": 30.0}
-    //                     ],
   });
 
   @override
@@ -39,9 +43,9 @@ class _BagPageState extends State<BagPage> {
   @override
   Widget build(BuildContext context) {
     if (!loggedIn) {
-      return _NotLoggedInView();
+      return const _NotLoggedInView();
     } else if (cartItems.isEmpty) {
-      return _LoggedInEmptyBagView();
+      return const _LoggedInEmptyBagView();
     } else {
       return _BagWithItemsView(
         cartItems: cartItems,
@@ -94,7 +98,16 @@ class _NotLoggedInView extends StatelessWidget {
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: SignInPage(), // بدون const
+                        ),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                   child: const Text("SIGN IN"),
                 ),
@@ -104,7 +117,16 @@ class _NotLoggedInView extends StatelessWidget {
                 width: double.infinity,
                 height: 45,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MainLayoutWrapper(
+                          child: SignUpPage(), // بدون const
+                        ),
+                      ),
+                    );
+                  },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.black),
                   ),
@@ -142,9 +164,9 @@ class _LoggedInEmptyBagView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.yellow,
-            child: Text("😐", style: TextStyle(fontSize: 40)),
+              radius: 40,
+              backgroundColor: Colors.yellow,
+              child: Text("😐", style: TextStyle(fontSize: 40)),
             ),
             const SizedBox(height: 15),
             const Text(
@@ -159,12 +181,22 @@ class _LoggedInEmptyBagView extends StatelessWidget {
             ),
             const SizedBox(height: 25),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const FavoritePage()),
+                );
+              },
               child: const Text("VIEW SAVED ITEMS"),
             ),
             const SizedBox(height: 12),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const HomePage()),
+                );
+              },
               child: const Text("START SHOPPING"),
             ),
           ],
@@ -303,7 +335,19 @@ class _BagWithItemsView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("CHECKOUT", style: TextStyle(fontSize: 16)),
+                    child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => CheckoutPage(cartItems: cartItems)),
+                      );
+                    },
+                    child: const Text(
+                      "CHECKOUT",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+
                   ),
                 ),
               ],

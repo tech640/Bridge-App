@@ -1,7 +1,6 @@
 // screens/sign_in.dart
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'myAccount.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -23,11 +22,9 @@ class SignInPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.black, size: 28),
+                 
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const MyAccountPage()),
-                    );
+                    Navigator.pop(context); // ترجع خطوة لورا فقط
                   },
                 ),
               ),
