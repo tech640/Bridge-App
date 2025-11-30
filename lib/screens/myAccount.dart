@@ -4,6 +4,7 @@ import 'package:bridge_app/screens/setting.dart';
 import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
 import 'package:bridge_app/screens/main_layout.dart';
+import 'package:bridge_app/screens/dashboard/saler.dart';
 
 
 
@@ -11,7 +12,7 @@ class MyAccountPage extends StatelessWidget {
   final bool isLoggedIn;
 
   // const MyAccountPage({super.key, this.isLoggedIn = true});
-  const MyAccountPage({super.key, this.isLoggedIn = false});
+  const MyAccountPage({super.key, this.isLoggedIn = true});
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +133,20 @@ class MyAccountPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
+        _item(
+          "My Dashboard",
+          Icons.space_dashboard_outlined,
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MainLayoutWrapper(
+                  child: SellerDashboardPage(), // بدون const
+                ),
+              ),
+            );
+          },
+        ),
         _item("My orders", Icons.shopping_bag, () {}),
         _item("Need help?", Icons.help_outline, () {}),
         _item("Gift cards & vouchers", Icons.card_giftcard, () {}),
