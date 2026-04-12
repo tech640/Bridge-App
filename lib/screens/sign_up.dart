@@ -2,6 +2,11 @@
 
 import 'package:flutter/material.dart';
 
+// ================= BACKEND =================
+import '../services/api_service.dart';
+import 'main_layout.dart';
+// ================= BACKEND =================
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -40,14 +45,13 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // === زر الرجوع ===
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black, size: 26),
           onPressed: () {
-                    Navigator.pop(context); // ترجع خطوة لورا فقط
+            Navigator.pop(context);
           },
         ),
       ),
@@ -58,9 +62,6 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // =======================
-              //    TOP BLACK BOX
-              // =======================
               Container(
                 height: 160,
                 width: double.infinity,
@@ -86,7 +87,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 25),
 
-              // Title
               const Center(
                 child: Text(
                   "We love new faces :)",
@@ -99,9 +99,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 25),
 
-              // =======================
-              // EMAIL
-              // =======================
               const Text("EMAIL:*",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
@@ -116,9 +113,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 20),
 
-              // =======================
-              // FIRST NAME
-              // =======================
               const Text("FIRST NAME:*",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
@@ -129,9 +123,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 20),
 
-              // =======================
-              // LAST NAME
-              // =======================
               const Text("LAST NAME:*",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
@@ -142,9 +133,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 20),
 
-              // =======================
-              // PASSWORD
-              // =======================
               const Text("PASSWORD:*",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
@@ -167,16 +155,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 20),
 
-              // =======================
-              // DATE OF BIRTH
-              // =======================
               const Text("DATE OF BIRTH:",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
 
               Row(
                 children: [
-                  // Day
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: selectedDay,
@@ -194,7 +178,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(width: 10),
 
-                  // Month (names)
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: selectedMonth,
@@ -211,7 +194,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(width: 10),
 
-                  // Year
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: selectedYear,
@@ -232,9 +214,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 25),
 
-              // =======================
-              // MOSTLY INTERESTED IN
-              // =======================
               const Text("MOSTLY INTERESTED IN:",
                   style: TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
@@ -265,9 +244,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
               const SizedBox(height: 40),
 
-              // =======================
-              // SIGN UP BUTTON
-              // =======================
+              // ================= BACKEND =================
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -276,10 +253,56 @@ class _SignUpPageState extends State<SignUpPage> {
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: () {},
-                  child: const Text("SIGN UP", style: TextStyle(fontSize: 18)),
+                  onPressed: () async {
+
+                    // 🔥 تحويل التاريخ
+                    if (selectedDay == null ||
+                        selectedMonth == null ||
+                        selectedYear == null) {
+                      print("اختاري تاريخ الميلاد");
+                      return;
+                    }
+
+                    final monthIndex =
+                        months.indexOf(selectedMonth!) + 1;
+
+                    final date =
+                        "${selectedYear!}-${monthIndex.toString().padLeft(2, '0')}-${selectedDay!.padLeft(2, '0')}";
+
+                    // 🔥 تحويل الاهتمام → backend value
+                    String gender = "womenswear";
+                    if (interests.contains("Men Clothes")) {
+                      gender = "menswear";
+                    }
+
+                    final name =
+                        "${firstNameController.text} ${lastNameController.text}";
+
+                    final data = await ApiService.register(
+                      name: name,
+                      email: emailController.text,
+                      password: passwordController.text,
+                      gender: gender,
+                      dateOfBirth: date,
+                    );
+
+                    if (data != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              MainLayout(user: data["user"]),
+                        ),
+                      );
+                    } else {
+                      print("فشل التسجيل");
+                    }
+                  },
+                  child: const Text("SIGN UP",
+                      style: TextStyle(fontSize: 18)),
                 ),
               ),
+              // ================= BACKEND =================
 
               const SizedBox(height: 30),
             ],

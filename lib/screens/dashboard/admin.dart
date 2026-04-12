@@ -1,8 +1,8 @@
 // screens/dashboard/saler.dart
 import 'package:flutter/material.dart';
-
-class SellerDashboardPage extends StatelessWidget {
-  const SellerDashboardPage({super.key});
+import 'package:flutter/material.dart';
+class AdminDashboardPage extends StatelessWidget {
+  const AdminDashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,22 +14,43 @@ class SellerDashboardPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               // ------------------- HEADER -------------------
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Saler Dashboard",
+                    "Admin Dashboard",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   Row(
-                    children: const [
-                      Icon(Icons.notifications_none, size: 26),
-                      SizedBox(width: 12),
-                      CircleAvatar(
-                        radius: 16,
-                        backgroundColor: Colors.black12,
-                        child: Icon(Icons.person, color: Colors.black),
+                    children: [
+                      const Icon(Icons.notifications_none, size: 26),
+                      const SizedBox(width: 12),
+
+                      PopupMenuButton<String>(
+                        icon: const CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.black12,
+                          child: Icon(Icons.person, color: Colors.black),
+                        ),
+                        onSelected: (value) {
+                          if (value == "profile") {
+                            print("Go to profile");
+                          } else if (value == "logout") {
+                            print("Logout");
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: "profile",
+                            child: Text("Profile"),
+                          ),
+                          const PopupMenuItem(
+                            value: "logout",
+                            child: Text("Logout"),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -62,6 +83,29 @@ class SellerDashboardPage extends StatelessWidget {
                   Expanded(
                       child: _statCard(Icons.refresh, "Returned", "6",
                           Colors.grey)),
+                ],
+              ),
+
+              const SizedBox(height: 25),
+
+              // ------------------- QUICK ACTIONS -------------------
+              const Text(
+                "Quick Actions",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                children: [
+                  _quickCard(Icons.receipt_long, "Orders", Colors.pink),
+                  _quickCard(Icons.store, "Stores", Colors.orange),
+                  _quickCard(Icons.delivery_dining, "Drivers", Colors.blue),
+                  _quickCard(Icons.inventory, "Batches", Colors.green),
                 ],
               ),
 
@@ -141,7 +185,7 @@ class SellerDashboardPage extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // ------------------- MONTHLY REVENUE (ADDED) -------------------
+              // ------------------- MONTHLY REVENUE -------------------
               const Text(
                 "Monthly Revenue",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -207,7 +251,36 @@ class SellerDashboardPage extends StatelessWidget {
     );
   }
 
-  // ------------------- WIDGETS -------------------
+  // ------------------- QUICK CARD -------------------
+  static Widget _quickCard(IconData icon, String title, Color color) {
+    return GestureDetector(
+      onTap: () {
+        print("Go to $title");
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.08),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 30),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: color),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // باقي الكود زي ما هو 👇 (ما غيرنا فيه)
 
   static Widget _statCard(
       IconData icon, String title, String value, Color color) {
@@ -308,7 +381,6 @@ class SellerDashboardPage extends StatelessWidget {
     );
   }
 }
-
 // ------------------- SIMPLE LINE CHART -------------------
 class _SimpleLineChart extends CustomPainter {
   @override
@@ -330,6 +402,7 @@ class _SimpleLineChart extends CustomPainter {
     ];
 
     path.moveTo(points.first.dx, points.first.dy);
+
     for (var p in points) {
       path.lineTo(p.dx, p.dy);
     }
@@ -340,8 +413,7 @@ class _SimpleLineChart extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
-
-// ------------------- MONTHLY BAR CHART (ADDED) -------------------
+// ------------------- MONTHLY BAR CHART -------------------
 class _MonthlyBarChart extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -349,27 +421,32 @@ class _MonthlyBarChart extends CustomPainter {
       ..color = Colors.pink
       ..style = PaintingStyle.fill;
 
-    final textPainter =
-        TextPainter(textDirection: TextDirection.ltr, textAlign: TextAlign.center);
+    final textPainter = TextPainter(
+      textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center,
+    );
 
     final values = [140, 165, 175, 190, 160, 230, 185];
-    final labels = ["Jun", "Feb", "Mar", "Ap", "May", "Jul", "Aug"];
+    final labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
 
-    final barWidth = size.width / values.length * 0.27;
+    final barWidth = size.width / values.length * 0.4;
 
     for (int i = 0; i < values.length; i++) {
-      double x = (size.width / values.length) * i + barWidth;
+      double x = (size.width / values.length) * i + 10;
       double barHeight = (values[i] / 230) * size.height;
 
+      // رسم الأعمدة
       canvas.drawRect(
         Rect.fromLTWH(x, size.height - barHeight, barWidth, barHeight),
         barPaint,
       );
 
+      // رسم النص تحت العمود
       textPainter.text = TextSpan(
         text: labels[i],
         style: const TextStyle(fontSize: 12, color: Colors.black54),
       );
+
       textPainter.layout();
       textPainter.paint(canvas, Offset(x, size.height + 4));
     }
