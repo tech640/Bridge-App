@@ -5,15 +5,14 @@ import 'package:bridge_app/screens/sign_in.dart';
 import 'package:bridge_app/screens/sign_up.dart';
 import 'package:bridge_app/screens/main_layout.dart';
 import 'package:bridge_app/screens/dashboard/admin.dart';
-
+import '../services/storage_service.dart';
 
 
 class MyAccountPage extends StatelessWidget {
-  final bool isLoggedIn;
+final Map<String, dynamic>? user;
 
+  const MyAccountPage({super.key, this.user});
   // const MyAccountPage({super.key, this.isLoggedIn = true});
-  const MyAccountPage({super.key, this.isLoggedIn = false});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +44,9 @@ class MyAccountPage extends StatelessWidget {
         ],
       ),
 
-      body: isLoggedIn ? _loggedInView(context) : _loggedOutView(context),
+      body: user != null
+            ? _loggedInView(context)
+            : _loggedOutView(context),
     );
   }
 
@@ -126,9 +127,9 @@ class MyAccountPage extends StatelessWidget {
           child: CircleAvatar(
             radius: 40,
             backgroundColor: Colors.black,
-            child: const Text(
-              "HM",
-              style: TextStyle(color: Colors.white, fontSize: 22),
+            child: Text(
+              (user?["name"] ?? "U")[0].toUpperCase(),
+              style: const TextStyle(color: Colors.white, fontSize: 22),
             ),
           ),
         ),
@@ -159,7 +160,19 @@ class MyAccountPage extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.logout, color: Colors.black),
           title: const Text("Sign out", style: TextStyle(color: Colors.black)),
-          onTap: () {},
+          onTap: () async {
+
+            // 🔥 BACKEND - مسح البيانات
+            await StorageService.clear();
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SignInPage(),
+              ),
+              (route) => false,
+            );
+          },
         ),
       ],
     );

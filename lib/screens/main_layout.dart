@@ -51,7 +51,7 @@ class _MainLayoutState extends State<MainLayout> {
         ],
       ),
       const FavoritePage(),
-      MyAccountPage(isLoggedIn: widget.user != null),
+      MyAccountPage(user: widget.user),
     ];
   }
 
