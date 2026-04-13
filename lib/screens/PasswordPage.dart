@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import 'main_layout.dart';
-
+import '../services/storage_service.dart';
 class PasswordPage extends StatefulWidget {
   final String email;
 
@@ -38,24 +38,31 @@ class _PasswordPageState extends State<PasswordPage> {
 
             ElevatedButton(
               onPressed: () async {
-                final data = await ApiService.login(
-                  widget.email,
-                  passwordController.text,
-                );
+  final data = await ApiService.login(
+    widget.email,
+    passwordController.text,
+  );
 
-                if (data != null) {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          MainLayout(user: data["user"]),
-                    ),
-                    (route) => false,
-                  );
-                } else {
-                  print("Login failed");
-                }
-              },
+  if (data != null) {
+
+    // 🔥 BACKEND - تخزين اليوزر والتوكن
+    await StorageService.saveUser(data["user"]);
+    await StorageService.saveTokens(
+      data["accessToken"],
+      data["refreshToken"],
+    );
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MainLayout(user: data["user"]),
+      ),
+      (route) => false,
+    );
+  } else {
+    print("Login failed");
+  }
+},
               child: const Text("LOGIN"),
             )
           ],
